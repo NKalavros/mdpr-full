@@ -69,26 +69,24 @@ sudo bash haddock_configure.sh
 source ~/.bash_profile
 sudo sed -i "1773s#.*#{===>} cns_exe_1='$HADDOCK/../../cns_solve_1.3/intel-x86_64bit-linux/bin/cns';#" protocols/run.cns
 sudo sed -i '1773s/\x27/\"/g' protocols/run.cns
-NPROC=$(($(nproc)-2))
+NPROC=$(($(nproc) - 0))
 sudo sed -i "s|{===>} cpunumber_1=2;|{===>} cpunumber_1=$NPROC;|" protocols/run.cns
 sudo sed -i "/        ONEM = DPTRUNC(ONE) - DPTRUNC(FPEPS)/a        WRITE (6,'(I6,E10.3,E10.3)') I, ONEP, ONEM" $HADDOCK/../../cns_solve_1.3/source/machvar.f
 sudo sed -i "s/WRITE (6,'(I6,E10.3,E10.3)') I, ONEP, ONEM/        WRITE (6,'(I6,E10.3,E10.3)') I, ONEP, ONEM/" $HADDOCK/../../cns_solve_1.3/source/machvar.f
-#sudo sed -i "s/      PARAMETER (MXFPEPS2=1024)/      PARAMETER (MXFPEPS2=2048)/" $HADDOCK/../../cns_solve_1.3/source/machvar.inc
-#sudo sed -i "s/      PARAMETER (MXRTP=20000)/      PARAMETER (MXRTP=4000)/" $HADDOCK/../../cns_solve_1.3/source/rtf.inc
 sudo sed -i "s/useLongJobFileNames = 0 /useLongJobFileNames = 1/" $HADDOCK/Haddock/Main/UseLongFileNames.py
 sudo make
 cd ../../cns_solve_1.3
 sudo sed -i "s#	    setenv CNS_SOLVE '_CNSsolve_location_'#setenv CNS_SOLVE $(pwd)#" ./cns_solve_env
 sudo sed -i "s|###setenv OMP_NUM_THREADS 4|setenv OMP_NUM_THREADS $NPROC|" ./cns_solve_env
 sudo mv ../haddock-deps/machvar.f ./source/machvar.f
-csh
-source cns_solve_env
-sudo make install
-exit
 sudo sed -i "s|	CNS_SOLVE=_CNSsolve_location_| CNS_SOLVE='$(pwd)'|" ./.cns_solve_env_sh
 sudo sed -i "s|###export OMP_NUM_THREADS 4|export OMP_NUM_THREADS=$NPROC|" ./.cns_solve_env_sh
 source ./.cns_solve_env_sh
+sudo make install
 cd ../haddock-deps/haddock2.2
+sudo sed -i "s/{===>} structures_0=1000;/{===>} structures_0=500;/" ./protocols/run.cns
+sudo sed -i "s/{===>} structures_1=200;/{===>} structures_1=100;/" ./protocols/run.cns
+sudo sed -i "s/{===>} structures_1=200;/{===>} structures_1=100;/" ./protocols/run.cns
 cd ..
 cd haddock2.2/examples/protein-dna
 haddock2.2
