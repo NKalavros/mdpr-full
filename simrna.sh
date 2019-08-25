@@ -7,7 +7,7 @@ rm -r SimRNA_64bitIntel_Linux.tgz
 cd SimRNA_64bitIntel_Linux
 sudo ln -s $(pwd)/* /usr/local/bin
 echo "CGCUUCAUAUAAUCCUAAUGAUAUGGUUUGGGAGUUUCUACCAAGAGCCUUAAACUCUUGAUUAUGAAGUG" > test_seq.fa
-echo "(((((((((...((((((.........))))))........((((((.......))))))..)))))))))" > secstr.fa
+echo "(((((((((...((((((.........))))))........((((((.......))))))..)))))))))" > test_seq_secstr.fa
 sed -i -e 's/NUMBER_OF_ITERATIONS 16000000/NUMBER_OF_ITERATIONS 160000/g' config.dat
 for i in {1..10};
 do
@@ -20,7 +20,7 @@ do
     echo $i
     SimRNA_trafl2pdbs fold_test_seq_1_01-000001.pdb $i 1 AA
 done
-secstr=`cat secstr.fa`
+secstr=`cat test_seq_secstr.fa`
 qrnaconfig >> qrnaconfig.txt
 sudo sed -i "s/#SECSTRUCT   (((....)))/SECSTRUCT $secstr/" qrnaconfig.txt
 QRNA -i fold_test_seq_1_01-000001.pdb -o final_seq.pdb -c qrnaconfig.txt
