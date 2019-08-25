@@ -9,3 +9,4 @@ cd ViennaRNA-2.4.14
 sudo make
 sudo make check
 sudo make install
+cd ..
