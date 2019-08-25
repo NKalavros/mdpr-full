@@ -9,5 +9,5 @@ sudo make parallel
 echo export PATH='$PATH':$(pwd) >>~/.bashrc
 echo export QRNAS_FF_DIR=$(pwd)/forcefield >>~/.bashrc
 source ~/.bashrc
-cd ..
+cd ..   
 	
