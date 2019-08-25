@@ -7,7 +7,7 @@ rm -r SimRNA_64bitIntel_Linux.tgz
 cd SimRNA_64bitIntel_Linux
 sudo ln -s $(pwd)/* /usr/local/bin
 echo "CGCUUCAUAUAAUCCUAAUGAUAUGGUUUGGGAGUUUCUACCAAGAGCCUUAAACUCUUGAUUAUGAAGUG" > test_seq.fa
-echo "(((((((((...((((((.........))))))........((((((.......))))))..)))))))))" > test_seq_secstr.fa
+echo "(((((((((...((((((.........))))))........((((((.......))))))..)))))))))" > secstr.fa
 sed -i -e 's/NUMBER_OF_ITERATIONS 16000000/NUMBER_OF_ITERATIONS 160000/g' config.dat
 for i in {1..10};
 do
@@ -22,3 +22,6 @@ do
 done
 mv fold_test_seq_1_01-000001.pdb final_seq.pdb
 rm *test*
+secstr=`cat secstr.fa`
+qrnaconfig >> qrnaconfig.txt
+sudo sed -i "s/#SSDETECT   0       # {0,1} - Detect base pairs automatically, by default ON/SSDETECT   0/" qrnaconfig.txt
