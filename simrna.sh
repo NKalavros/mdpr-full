@@ -9,10 +9,10 @@ sudo ln -s $(pwd)/* /usr/local/bin
 echo "CGCUUCAUAUAAUCCUAAUGAUAUGGUUUGGGAGUUUCUACCAAGAGCCUUAAACUCUUGAUUAUGAAGUG" > test_seq.fa
 echo "(((((((((...((((((.........))))))........((((((.......))))))..)))))))))" > test_seq_secstr.fa
 sed -i -e 's/NUMBER_OF_ITERATIONS 16000000/NUMBER_OF_ITERATIONS 160000/g' config.dat
-for i in {1..2};
+for i in {1..10};
 do
-    ./SimRNA -s test_seq.fa -S test_seq_secstr.fa -c config.dat -R 1000 -E 7 -o fold_test_seq_$i >& fold_test_seq_$i.log & 
-dones
+    ./SimRNA -s test_seq.fa -S test_seq_secstr.fa -c config.dat -R 1000 -E 8 -o fold_test_seq_$i >& fold_test_seq_$i.log & 
+done
 cat fold_test_seq_?_??.trafl > fold_test_seq_all.trafl
 ./clustering fold_test_seq_all.trafl 0.01 2.5 >& fold_test_seq_all.log
 for i in fold_test_seq_all_thrs2.50A*.trafl;
