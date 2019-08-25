@@ -21,3 +21,4 @@ do
     SimRNA_trafl2pdbs fold_test_seq_1_01-000001.pdb $i 1 AA
 done
 mv fold_test_seq_1_01-000001.pdb final_seq.pdb
+rm *test*
