@@ -8,7 +8,7 @@ cd QRNAS
 sudo make parallel
 sudo sed -i "s/#WRITEFREQ  1000/WRITEFREQ  1000/" configfile.txt
 sudo sed -i "s/STEPS     5000/STEPS     10000/" configfile.txt
-sudo sed -i "s/NUMTHREADS  08/NUMTHREADS  80/" configfile.txt
+sudo sed -i "s/NUMTHREADS  08/NUMTHREADS  16/" configfile.txt
 sudo sed -i "s/#HBONDS     0/HBONDS     0/" configfile.txt
 sudo sed -i "s/#SSDETECT   0/SSDETECT   0/" configfile.txt
 sudo cp ./configfile.txt /usr/local/bin/configfile.txt
