@@ -25,7 +25,7 @@ mv Makefile.basic Makefile
 sudo make
 sudo make install
 cd ../..
-git clone https://NKalavros:2008041900141108@github.com/NKalavros/haddock-deps.git
+git clone https://NKalavros:yourpassword@github.com/NKalavros/haddock-deps.git
 cd haddock-deps
 gunzip naccess.rar.gz
 mkdir naccess
