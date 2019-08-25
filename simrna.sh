@@ -20,8 +20,8 @@ do
     echo $i
     SimRNA_trafl2pdbs fold_test_seq_1_01-000001.pdb $i 1 AA
 done
-mv fold_test_seq_1_01-000001.pdb final_seq.pdb
-rm *test*
 secstr=`cat secstr.fa`
 qrnaconfig >> qrnaconfig.txt
-sudo sed -i "s/#SSDETECT   0       # {0,1} - Detect base pairs automatically, by default ON/SSDETECT   0/" qrnaconfig.txt
+sudo sed -i "s/#SECSTRUCT   (((....)))/SECSTRUCT $secstr/" qrnaconfig.txt
+QRNA -i fold_test_seq_1_01-000001.pdb -o final_seq.pdb -c qrnaconfig.txt
+rm *test*
