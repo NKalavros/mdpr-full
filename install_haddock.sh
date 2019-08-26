@@ -1,7 +1,7 @@
 #!bin/bash
 sudo apt-get -yf install curl wget rar gzip tar python python-dev python-pip python3 python3-dev python3-pip git pymol freeglut3-dev libjpeg-dev libpng-dev zlib1g-dev gfortran gawk perl tcsh build-essential
-sudo -H pip install setuptools wheel
-sudo -H pip3 install setuptools wheel
+sudo -H pip install setuptools wheel pdb-tools
+sudo -H pip3 install setuptools wheel pdb-tools
 sudo curl -L https://www.dropbox.com/s/v2n85avgnm6tohh/cns_solve_1.3_all.tar.gz?dl=0 --output cns13.tar.gz
 sudo curl -L https://www.dropbox.com/s/32h76w3l4gnaxxh/x3dna-v2.4-linux-64bit.tar.gz?dl=0 --output x3dna.tar.gz
 sudo curl -L https://www.dropbox.com/s/4fmks0cxcvu8pa1/foldxLinux64.tar_.gz?dl=0 --output foldx4.tar.gz
@@ -90,6 +90,9 @@ sudo sed -i "s/{===>} anastruc_1=200;/{===>} anastruc_1=80;/" ./protocols/run.cn
 sudo sed -i "s/{===>} crossdock=true;/{===>} crossdock=false;/" ./protocols/run.cns
 sudo sed -i "s/{===>} waterrefine=200;/{===>} waterrefine=80;/" ./protocols/run.cns
 sudo sed -i "s/{===>} tadfactor= 8;/{===>} tadfactor= 6;/" ./protocols/run.cns
+sudo sed -i "s/{===>} w_desolv_0=1.0;/{===>} w_desolv_0=0;/" .protocols/run.cns
+sudo sed -i "s/{===>} w_desolv_1=1.0;/{===>} w_desolv_1=0;/" .protocols/run.cns
+sudo sed -i "s/{===>} w_desolv_2=1.0;/{===>} w_desolv_2=0;/" .protocols/run.cns
 cd ..
 #cd haddock2.2/examples/protein-dna
 #haddock2.2
@@ -97,3 +100,7 @@ cd ..
 #cd run1
 #patch -p0 -i ../run.cns.patch
 #haddock2.2 >> haddock.out
+#cd structures/it1/water
+#$HADDOCKTOOLS/ana_structures.csh
+#cat structures_haddock-sorted.stat
+#python3 get_best_struct.py structures_haddock-sorted.stat
