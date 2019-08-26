@@ -21,10 +21,10 @@ It also contains the files that we used to perform our proof-of-concept attempt 
 First, let it be known that this repository and the scripts hosted within assume (yes, they are conscious) that you have admin priviledges in your computer and therefore can use sudo. They also assume, in their infinite wisdom, that you have access to a cluster of 80 cores. **Notes will be added later on as to how to change those two assumptions.** Needless to say, for such a computationally intensive pipeline, the more cores you have the merrier.
 
 First, begin by installing all the programs that will be needed as follows:
-`<addr>`sudo bash viennarna.sh
-`<addr>`sudo bash qrnas.sh
-`<addr>`sudo bash SimRNA.sh
-`<addr>`sudo bash gromacs.sh
+1. `< sudo bash viennarna.sh >`
+2. `< sudo bash qrnas.sh >`
+3. `< sudo bash SimRNA.sh >`
+4. `< sudo bash gromacs.sh >`
 
 Lastly you will need to install HADDOCK using:
 `<addr>`sudo bash install_haddock.sh
@@ -32,7 +32,7 @@ Right now this script is impossible for you to use, as it depends on one of my o
 
 * [CNS (Crystallography and NMR System) *needs license*](https://www.mrc-lmb.cam.ac.uk/public/xtal/doc/cns/cns_1.3/main/frame.html)
 * [PALES](https://spin.niddk.nih.gov/bax/software/PALES/index.html)
-* [PROFIT *Sign simple license in website](http://www.bioinf.org.uk/software/)
+* [PROFIT *Sign simple license in website*](http://www.bioinf.org.uk/software/)
 * [NACCESS *email the author*](http://wolf.bms.umist.ac.uk/naccess)
 * [TENSORV2 *Sign simple license in website*](http://www.ibs.fr/research/scientific-output/software/tensor/?lang=en)
 * [MODULE *Sign simple license in website*](http://www.ibs.fr/research/scientific-output/software/module/?lang=en)
