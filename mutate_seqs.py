@@ -152,7 +152,7 @@ def rna_tertiary_structure_prediction(filename):
     return(fasta_idx)
             
 #Now all the secondary structure stuff is done, time to reiterate over the directory to calculate the tertiary structure
-num_threads = 8
+num_threads = 10
 filenames = []
 for filename in sorted(os.listdir(cwd)): #Iterate over files in directory
     if filename.endswith(".fasta"): #If they are fasta
