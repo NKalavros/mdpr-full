@@ -86,7 +86,7 @@ sudo make install
 cd ../haddock-deps/haddock2.2
 sudo sed -i "s/{===>} structures_0=1000;/{===>} structures_0=480;/" ./protocols/run.cns
 sudo sed -i "s/{===>} structures_1=200;/{===>} structures_1=80;/" ./protocols/run.cns
-sudo sed -i "s/{===>} structures_1=200;/{===>} structures_1=80;/" ./protocols/run.cns
+sudo sed -i "s/{===>} anastruc_1=200;/{===>} anastruc_1=200;/" ./protocols/run.cns
 cd ..
 #cd haddock2.2/examples/protein-dna
 #haddock2.2
