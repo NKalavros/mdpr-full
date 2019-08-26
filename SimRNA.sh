@@ -8,7 +8,7 @@ cd SimRNA_64bitIntel_Linux
 sudo ln -s $(pwd)/* /usr/local/bin
 sed -i -e 's/NUMBER_OF_ITERATIONS 16000000/NUMBER_OF_ITERATIONS 800000/g' config.dat
 sed -i -e "s/TRA_WRITE_IN_EVERY_N_ITERATIONS 1600/TRA_WRITE_IN_EVERY_N_ITERATIONS 800/" config.dat
-sudo ln -s ./data ..
+sudo cp -r ./data ..
 cp config.dat ../config.dat
 #Example script, not ran!
 #echo "CGCUUCAUAUAAUCCUAAUGAUAUGGUUUGGGAGUUUCUACCAAGAGCCUUAAACUCUUGAUUAUGAAGUG" > test_seq.fa
