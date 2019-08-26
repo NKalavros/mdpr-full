@@ -8,7 +8,8 @@ cd SimRNA_64bitIntel_Linux
 sudo ln -s $(pwd)/* /usr/local/bin
 #echo "CGCUUCAUAUAAUCCUAAUGAUAUGGUUUGGGAGUUUCUACCAAGAGCCUUAAACUCUUGAUUAUGAAGUG" > test_seq.fa
 #echo "(((((((((...((((((.........))))))........((((((.......))))))..)))))))))" > test_seq_secstr.fa
-sed -i -e 's/NUMBER_OF_ITERATIONS 16000000/NUMBER_OF_ITERATIONS 160000/g' config.dat
+sed -i -e 's/NUMBER_OF_ITERATIONS 16000000/NUMBER_OF_ITERATIONS 800000/g' config.dat
+sed -i -e "s/TRA_WRITE_IN_EVERY_N_ITERATIONS 1600/TRA_WRITE_IN_EVERY_N_ITERATIONS 800" config.dat
 #for i in {1..10};
 #do
 #    ./SimRNA -s test_seq.fa -S test_seq_secstr.fa -c config.dat -R 1000 -E 8 -o fold_test_seq_$i >& fold_test_seq_$i.log & 
