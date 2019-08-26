@@ -45,5 +45,6 @@ Furthermore, this repository contains the driver scripts needed to run the genet
 Lastly, since not many of us have access to clusters, this pipeline was run on a Google Cloud VM, using the free credits generously provided by google. A script to create a VM of those specs is provided (open_vm.sh).
 
 Next step:
+* Add short google cloud VM guide
 * Describe the pipeline
 * Add examples with pictures
