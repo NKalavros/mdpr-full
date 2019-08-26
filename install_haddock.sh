@@ -88,7 +88,6 @@ sudo sed -i "s/{===>} structures_0=1000;/{===>} structures_0=480;/" ./protocols/
 sudo sed -i "s/{===>} structures_1=200;/{===>} structures_1=80;/" ./protocols/run.cns
 sudo sed -i "s/{===>} anastruc_1=200;/{===>} anastruc_1=80;/" ./protocols/run.cns
 sudo sed -i "s/{===>} crossdock=true;/{===>} crossdock=false;/" ./protocols/run.cns
-sudo sed -i "s/{===>} tadfactor= 8;/{===>} tadfactor= 20;/" ./protocols/run.cns
 sudo sed -i "s/{===>} waterrefine=200;/{===>} waterrefine=80;/" ./protocols/run.cns
 cd ..
 #cd haddock2.2/examples/protein-dna
