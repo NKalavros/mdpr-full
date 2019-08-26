@@ -6,8 +6,8 @@ rm -r gromacs-2019.3.tar.gz
 cd gromacs-2019.3
 mkdir build
 cd build
-cmake .. -DGMX_FFT_LIBRARY= fftw3 -DGMX_BUILD_OWN_FFTW=ON -DREGRESSIONTEST_DOWNLOAD=ON -DGMX_MPI=on -DCMAKE_C_COMPILER=mpicc -DCMAKE_CXX_COMPILER=mpicxx -DGMX_GPU=on DCUDA_TOOLKIT_ROOT_DIR=/
-sudo make -j 60
+cmake .. -DGMX_BUILD_OWN_FFTW=ON -DREGRESSIONTEST_DOWNLOAD=ON -DGMX_MPI=on -DCMAKE_C_COMPILER=mpicc -DCMAKE_CXX_COMPILER=mpicxx
+sudo make -j 80
 sudo make check
 sudo make install
 source /usr/local/gromacs/bin/GMXRC
