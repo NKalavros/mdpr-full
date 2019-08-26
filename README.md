@@ -5,6 +5,6 @@ Just remember to use sed in order to insert your password in the git clone state
 
 Example scripts are commented out.
 
-The proof of concept is performed with human C Reactive Protein (CRP), whose structure is deposited here: http://www.rcsb.org/structure/3L2Y
+The proof of concept is performed with human C Reactive Protein (CRP), whose structure is deposited here: http://www.rcsb.org/structure/3L2Y (crp.pdb)
 
-The aptamer of choice is one found in Aptagen using their apta-index resource. https://www.aptagen.com/aptamer/454/c-reactive-protein and based on this publication. https://www.ncbi.nlm.nih.gov/pubmed/18066708 
+The aptamer of choice is one found in Aptagen using their apta-index resource. https://www.aptagen.com/aptamer/454/c-reactive-protein (0.fa) and based on this publication. https://www.ncbi.nlm.nih.gov/pubmed/18066708 
