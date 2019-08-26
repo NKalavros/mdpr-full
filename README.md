@@ -30,17 +30,19 @@ Lastly you will need to install HADDOCK using:
 `<addr>`sudo bash install_haddock.sh
 Right now this script is impossible for you to use, as it depends on one of my other repositories (haddock-deps), which is privated. The reason that repository is privated is because many of the programs that are used as part of HADDOCK's routines are free only for academic use and I do not have the right to redistribute them. **I will remake the scripts in order for the haddock-deps repository to be unneeded, however, it will still require you to place the programs in the working directory**. Those programs include, but are not necessarily limited to:
 
-[CNS (Crystallography and NMR System) *needs license*](https://www.mrc-lmb.cam.ac.uk/public/xtal/doc/cns/cns_1.3/main/frame.html)
-[PALES](https://spin.niddk.nih.gov/bax/software/PALES/index.html)
-[PROFIT *Sign simple license in website](http://www.bioinf.org.uk/software/)
-[NACCESS *email the author*](http://wolf.bms.umist.ac.uk/naccess)
-[TENSORV2 *Sign simple license in website*](http://www.ibs.fr/research/scientific-output/software/tensor/?lang=en)
-[MODULE *Sign simple license in website*](http://www.ibs.fr/research/scientific-output/software/module/?lang=en)
-[X3DNA *Become member of a forum*](http://forum.x3dna.org/site-announcements/download-instructions/)
+* [CNS (Crystallography and NMR System) *needs license*](https://www.mrc-lmb.cam.ac.uk/public/xtal/doc/cns/cns_1.3/main/frame.html)
+* [PALES](https://spin.niddk.nih.gov/bax/software/PALES/index.html)
+* [PROFIT *Sign simple license in website](http://www.bioinf.org.uk/software/)
+* [NACCESS *email the author*](http://wolf.bms.umist.ac.uk/naccess)
+* [TENSORV2 *Sign simple license in website*](http://www.ibs.fr/research/scientific-output/software/tensor/?lang=en)
+* [MODULE *Sign simple license in website*](http://www.ibs.fr/research/scientific-output/software/module/?lang=en)
+* [X3DNA *Become member of a forum*](http://forum.x3dna.org/site-announcements/download-instructions/)
 
 I apologise for this inconvenience. Right now the script needs you to be a collaborator in that private repository to download those programs.
 
 Furthermore, this repository contains the driver scripts needed to run the genetic algorithm. Those are in the form of python files (.py) and Jupyter Notebook files (.ipnyb).
+
+Lastly, since not many of us have access to clusters, this pipeline was run on a Google Cloud VM, using the free credits generously provided by google. A script to create a VM of those specs is provided (open_vm.sh).
 
 Next step:
 * Describe the pipeline
