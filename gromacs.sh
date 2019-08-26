@@ -11,3 +11,4 @@ sudo make -j 60
 sudo make check
 sudo make install
 source /usr/local/gromacs/bin/GMXRC
+cd ../..
