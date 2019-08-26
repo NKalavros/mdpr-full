@@ -5,8 +5,8 @@ wget https://www.tbi.univie.ac.at/RNA/download/sourcecode/2_4_x/ViennaRNA-2.4.14
 tar -zxvf ViennaRNA-2.4.14.tar.gz
 rm -r ViennaRNA-2.4.14.tar.gz
 cd ViennaRNA-2.4.14
-./configure
-sudo make
+./configure --with-python3
+sudo make -j 60
 sudo make check
-sudo make install
+sudo make install -j 60
 cd ..
