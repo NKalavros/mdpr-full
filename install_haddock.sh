@@ -90,9 +90,9 @@ sudo sed -i "s/{===>} anastruc_1=200;/{===>} anastruc_1=80;/" ./protocols/run.cn
 sudo sed -i "s/{===>} crossdock=true;/{===>} crossdock=false;/" ./protocols/run.cns
 sudo sed -i "s/{===>} waterrefine=200;/{===>} waterrefine=80;/" ./protocols/run.cns
 sudo sed -i "s/{===>} tadfactor= 8;/{===>} tadfactor= 6;/" ./protocols/run.cns
-sudo sed -i "s/{===>} w_desolv_0=1.0;/{===>} w_desolv_0=0;/" .protocols/run.cns
-sudo sed -i "s/{===>} w_desolv_1=1.0;/{===>} w_desolv_1=0;/" .protocols/run.cns
-sudo sed -i "s/{===>} w_desolv_2=1.0;/{===>} w_desolv_2=0;/" .protocols/run.cns
+sudo sed -i "s/{===>} w_desolv_0=1.0;/{===>} w_desolv_0=0;/" ./protocols/run.cns
+sudo sed -i "s/{===>} w_desolv_1=1.0;/{===>} w_desolv_1=0;/" ./protocols/run.cns
+sudo sed -i "s/{===>} w_desolv_2=1.0;/{===>} w_desolv_2=0;/" ./protocols/run.cns
 cd ..
 #cd haddock2.2/examples/protein-dna
 #haddock2.2
