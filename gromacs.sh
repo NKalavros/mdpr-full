@@ -10,5 +10,4 @@ cmake .. -DGMX_BUILD_OWN_FFTW=ON -DREGRESSIONTEST_DOWNLOAD=ON -DGMX_MPI=on -DCMA
 sudo make -j 80
 sudo make check
 sudo make install
-source /usr/local/gromacs/bin/GMXRC
 cd ../..
