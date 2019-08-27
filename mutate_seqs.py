@@ -126,7 +126,7 @@ def rna_tertiary_structure_prediction(filename):
                             f1.write(f2.read()) #Paste them in a cat way
             angstrom_cutoff = "4.4"
             fraction_to_cluster = "0.01"
-            main_logfile.write(("Clustering the top " + fraction_to_cluster + " of each replicate using a" + angstrom_cutoff + "Angstrom cutoff" + "\n"))
+            main_logfile.write(("Clustering the top " + fraction_to_cluster + " of each replicate using a " + angstrom_cutoff + " Angstrom cutoff" + "\n"))
             main_logfile.flush()
             with open(fasta_clustering_logfile_filename,"w") as log: #Create a log file
                 args = ["clustering",fasta_idx + ".for_clustering.simrna",fraction_to_cluster,angstrom_cutoff] #Arguments for clustering
@@ -139,12 +139,12 @@ def rna_tertiary_structure_prediction(filename):
                         break
                     args = ["SimRNA_trafl2pdbs", fasta_terstr_filename + "_01-000001.pdb", filename, "1","AA"] #Create list of args
                     call(args) #Call the actual command
-            qrnas_start = time.time()
             main_logfile.write("SimRNA subroutine complete, continuing with QRNAs.It took: " + str(round((time.time() - start),0)) + " seconds for " + fasta_idx + "\n")
             main_logfile.flush()
-  return(fasta_idx)
+    return(fasta_idx)
 
 def rna_tertiary_structure_refinement(filename):
+    start = time.time()
     fasta_idx = filename.replace(".fasta","") #Get index
     fasta_secstr_simrna_filename = fasta_idx + ".secstr.simrna"
     with open(filename + "mpdr-rna.log","w") as main_logfile:
@@ -161,9 +161,7 @@ def rna_tertiary_structure_refinement(filename):
              call(args,stdout = qrna_log)
              main_logfile.write("QRNAS is complete. It took:" + str(round((time.time() - qrnas_start),0)) + "seconds for" + fasta_idx + "\n")
              main_logfile.flush()
-             main_logfile.write("The whole subroutine is complete, it took: " +str(time.time() - start) + "seconds for " + fasta_idx) #Time taken
-             main_logfile.flush()
-  return(fasta_idx)
+    return(fasta_idx)
             
 #Now all the secondary structure stuff is done, time to reiterate over the directory to calculate the tertiary structure
 if __name__ == "__main__":
