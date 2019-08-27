@@ -121,7 +121,8 @@ def rna_tertiary_structure_prediction(filename):
             with open(fasta_idx + ".for_clustering.simrna","w") as f1: #Open the file for clustering
                 for filename in sorted(os.listdir(cwd)): #Iterate over the directory
                     if filename.startswith(fasta_idx) and filename.endswith(".trafl"): #If there are trafl files
-                        print("Found a replicate")
+                        main_logfile.write("Found a replicate")
+                        main_logfile.flush()
                         with open(filename,"r") as f2: #Read them in
                             f1.write(f2.read()) #Paste them in a cat way
             angstrom_cutoff = "4.4"
@@ -137,6 +138,7 @@ def rna_tertiary_structure_prediction(filename):
                 if "4.4" in filename: #Get only the cluster files
                     args = ["SimRNA_trafl2pdbs", fasta_terstr_filename + "_01-000001.pdb", filename, "1","AA"] #Create list of args
                     call(args) #Call the actual command
+                    break
             main_logfile.write("SimRNA subroutine complete, continuing with QRNAs.It took: " + str(round((time.time() - start),0)) + " seconds for " + fasta_idx + "\n")
             main_logfile.flush()
     return(fasta_idx)
