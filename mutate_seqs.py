@@ -9,6 +9,7 @@ import os
 from subprocess import call
 import sys
 sys.path.append("/usr/local/lib/python3.6/site-packages/RNA")
+sys.path.append("/usr/local/bin/")
 import numpy as np
 import _RNA as RNA
 import time
