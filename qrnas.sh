@@ -11,10 +11,10 @@ sudo sed -i "s/STEPS     5000/STEPS     10000/" configfile.txt
 sudo sed -i "s/NUMTHREADS  08/NUMTHREADS  08/" configfile.txt
 sudo sed -i "s/#HBONDS     0/HBONDS     0/" configfile.txt
 sudo sed -i "s/#SSDETECT   0/SSDETECT   0/" configfile.txt
+sudo ln -s $(pwd) /usr/local/bin
+sudo rm /usr/local/bin/configfile.txt
 sudo cp ./configfile.txt /usr/local/bin/configfile.txt
 echo "alias qrnaconfig='cat /usr/local/bin/configfile.txt'" >> ~/.bashrc
 echo export PATH='$PATH':$(pwd) >>~/.bashrc
 echo export QRNAS_FF_DIR=$(pwd)/forcefield >>~/.bashrc
-source ~/.bashrc
-cd ..   
-	
+cd ..
