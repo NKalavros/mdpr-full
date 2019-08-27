@@ -21,7 +21,7 @@ It also contains the files that we used to perform our proof-of-concept attempt 
 First, let it be known that this repository and the scripts hosted within assume (yes, they are conscious) that you have admin priviledges in your computer and therefore can use sudo. They also assume, in their infinite wisdom, that you have access to a cluster of 80 cores. **Notes will be added later on as to how to change those two assumptions.** Needless to say, for such a computationally intensive pipeline, the more cores you have the merrier.
 
 First, after logging into your VM, you should:
-<p align="center"> `git clone https://github.com/NKalavros/mdpr-full` <p>
+```git clone https://github.com/NKalavros/mdpr-full```
 
 Then, continue by installing all the programs that will be needed as follows:
 1. ``` sudo bash viennarna.sh ```
