@@ -1,5 +1,5 @@
 #!bin/bash
-sudo apt-get -yf install curl wget rar gzip tar python python-dev python-pip python3 python3-dev python3-pip git pymol freeglut3-dev libjpeg-dev libpng-dev zlib1g-dev gfortran gawk perl tcsh build-essential
+sudo apt-get -yf install curl wget rar gzip tar python python-dev python-pip python3 python3-dev python3-pip git pymol freeglut3-dev libjpeg-dev libpng-dev zlib1g-dev gfortran gawk perl tcsh build-essential gawk
 sudo -H pip install setuptools wheel pdb-tools
 sudo -H pip3 install setuptools wheel pdb-tools
 sudo curl -L https://www.dropbox.com/s/v2n85avgnm6tohh/cns_solve_1.3_all.tar.gz?dl=0 --output cns13.tar.gz
@@ -94,6 +94,14 @@ sudo sed -i "s/{===>} w_desolv_0=1.0;/{===>} w_desolv_0=0;/" ./protocols/run.cns
 sudo sed -i "s/{===>} w_desolv_1=1.0;/{===>} w_desolv_1=0;/" ./protocols/run.cns
 sudo sed -i "s/{===>} w_desolv_2=1.0;/{===>} w_desolv_2=0;/" ./protocols/run.cns
 cd ..
+
+git clone https://github.com/rlabduke/MolProbity
+cd MolProbity
+rm install_via_bootstrap.sh
+svn --quiet --non-interactive --trust-server-cert export https://github.com/rlabduke/MolProbity.git/trunk/install_via_bootstrap.sh
+sudo bash ./install_via_bootstrap.sh 40
+cd ..
+git clone https://github.com/haddocking/pdb-tools
 #cd haddock2.2/examples/protein-dna
 #haddock2.2
 #cp dna-rna_restraints.def run1/data/sequence
