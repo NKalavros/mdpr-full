@@ -138,7 +138,7 @@ def rna_tertiary_structure_prediction(filename):
                         break
                     args = ["SimRNA_trafl2pdbs", fasta_terstr_filename + "_01-000001.pdb", filename, "1","AA"] #Create list of args
                     call(args) #Call the actual command
-            QRNAS_filename = fasta_idx + "for_clustering_thrs4.40A_clust01-000001_AA.pdb"
+            QRNAS_filename = fasta_idx + ".for_clustering_thrs4.40A_clust01-000001_AA.pdb"
             qrnas_start = time.time()
             main_logfile.write("SimRNA subroutine complete, continuing with QRNAs.It took: " + str(round((time.time() - start),0)) + " seconds for " + fasta_idx + "\n")
             main_logfile.flush()
