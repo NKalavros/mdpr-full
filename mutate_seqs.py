@@ -135,8 +135,6 @@ def rna_tertiary_structure_prediction(filename):
             main_logfile.flush()
             for filename in sorted(os.listdir(cwd)): #Iterate one last time over the directory
                 if "4.4" in filename: #Get only the cluster files
-                    if "02" in filename:
-                        break
                     args = ["SimRNA_trafl2pdbs", fasta_terstr_filename + "_01-000001.pdb", filename, "1","AA"] #Create list of args
                     call(args) #Call the actual command
             main_logfile.write("SimRNA subroutine complete, continuing with QRNAs.It took: " + str(round((time.time() - start),0)) + " seconds for " + fasta_idx + "\n")
@@ -159,7 +157,7 @@ def rna_tertiary_structure_refinement(filename):
         QRNAS_filename = fasta_idx + ".for_clustering_thrs4.40A_clust01-000001_AA.pdb"
         args = ["QRNA","-i",QRNAS_filename,"-c",fasta_idx + "qrnaconfig.txt","-o",fasta_idx + ".pdb"] #Set the arguments
         call(args,stdout = qrna_log)
-        main_logfile.write("QRNAS is complete. It took:" + str(round((time.time() - qrnas_start),0)) + "seconds for" + fasta_idx + "\n")
+        main_logfile.write("QRNAS is complete. It took:" + str(round((time.time() - start),0)) + "seconds for" + fasta_idx + "\n")
         main_logfile.flush()
     return(fasta_idx)
             
