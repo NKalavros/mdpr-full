@@ -13,8 +13,8 @@ This repository contains scripts to install the necessary programs for the MPDR 
 
 It also contains the files that we used to perform our proof-of-concept attempt of the pipeline for the iGEM Competition. Namely, we have included:
 
- <p align="center">* [0.fa (RNA aptamer for CRP, taken from Aptagen's Aptaindex)](https://www.aptagen.com/aptamer/454/c-reactive-protein). The RNA aptamer sequence was first discovered in this [publication](https://www.ncbi.nlm.nih.gov/pubmed/18066708).</p>
-<p align="center">* [crp.pdb (Human C Reactive Protein structure, taken from the PDB)](http://www.rcsb.org/structure/3L2Y). The protein was crystallised and the results were made public in this [publication](https://onlinelibrary.wiley.com/doi/epdf/10.1002/jmr.1090?referrer_access_token=sCYf1bjtd5G3z-Fs9O5ynk4keas67K9QMdWULTWMo8NPWaA9ORSiI17d0BpvTifVHxZkwXwvCzEhmceJ7stFO0NuRjCXufzUtqKZ24G6rqaKDHgM0tCLQz3d-BVg64eRPVkHgwVozjfwmMshYhfwRw%3D%3D).</p>
+* [0.fa (RNA aptamer for CRP, taken from Aptagen's Aptaindex)](https://www.aptagen.com/aptamer/454/c-reactive-protein). The RNA aptamer sequence was first discovered in this [publication](https://www.ncbi.nlm.nih.gov/pubmed/18066708).
+* [crp.pdb (Human C Reactive Protein structure, taken from the PDB)](http://www.rcsb.org/structure/3L2Y). The protein was crystallised and the results were made public in this [publication](https://onlinelibrary.wiley.com/doi/epdf/10.1002/jmr.1090?referrer_access_token=sCYf1bjtd5G3z-Fs9O5ynk4keas67K9QMdWULTWMo8NPWaA9ORSiI17d0BpvTifVHxZkwXwvCzEhmceJ7stFO0NuRjCXufzUtqKZ24G6rqaKDHgM0tCLQz3d-BVg64eRPVkHgwVozjfwmMshYhfwRw%3D%3D).
 
 ## How do you run this?
 
