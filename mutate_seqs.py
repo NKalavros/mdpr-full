@@ -134,11 +134,10 @@ def rna_tertiary_structure_prediction(filename):
             main_logfile.flush()
             for filename in sorted(os.listdir(cwd)): #Iterate one last time over the directory
                 if "4.4" in filename: #Get only the cluster files
-                    if "04" in filename:
+                    if "02" in filename:
                         break
                     args = ["SimRNA_trafl2pdbs", fasta_terstr_filename + "_01-000001.pdb", filename, "1","AA"] #Create list of args
                     call(args) #Call the actual command
-            QRNAS_filename = fasta_idx + ".for_clustering_thrs4.40A_clust01-000001_AA.pdb"
             qrnas_start = time.time()
             main_logfile.write("SimRNA subroutine complete, continuing with QRNAs.It took: " + str(round((time.time() - start),0)) + " seconds for " + fasta_idx + "\n")
             main_logfile.flush()
@@ -149,9 +148,10 @@ def rna_tertiary_structure_prediction(filename):
                         new_secstr = f3.read() #Save it in a variable
                         original_config_file[-3] = "SECSTRUCT   " + new_secstr #Paste it in the new config file
                         f1.write("\n".join(original_config_file)) #Save the new configfile
-            with open(fasta_idx +"qrna.logfile","w") as log:
+            with open(fasta_idx +"qrna.logfile","w") as qrna_log:
+                QRNAS_filename = fasta_idx + ".for_clustering_thrs4.40A_clust01-000001_AA.pdb"
                 args = ["QRNA","-i",QRNAS_filename,"-c",fasta_idx + "qrnaconfig.txt","-o",fasta_idx + ".pdb"] #Set the arguments
-                call(args,stdout = log)
+                call(args,stdout = qrna_log)
             main_logfile.write("QRNAS is complete. It took:" + str(round((time.time() - qrnas_start),0)) + "seconds for" + fasta_idx + "\n")
             main_logfile.flush()
             main_logfile.write("The whole subroutine is complete, it took: " +str(time.time() - start) + "seconds for " + fasta_idx) #Time taken
