@@ -128,7 +128,7 @@ def rna_tertiary_structure_prediction(filename):
             main_logfile.write(("Clustering the top " + fraction_to_cluster + " of each replicate using a" + angstrom_cutoff + "Angstrom cutoff" + "\n"))
             main_logfile.flush()
             with open(fasta_clustering_logfile_filename,"w") as log: #Create a log file
-                args = ["clustering",fasta_idx + ".for_clustering.simrna","0.01","4.4"] #Arguments for clustering
+                args = ["clustering",fasta_idx + ".for_clustering.simrna",fraction_to_cluster,angstrom_cutoff] #Arguments for clustering
                 call(args,stdout = log) #Perform the actual clustering
             main_logfile.write("Refining the PDB file, using the clustering runs" + "\n)
             main_logfile.flush()
