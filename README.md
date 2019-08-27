@@ -24,14 +24,14 @@ First, after logging into your VM, you should:
 <p align="center"> `git clone https://github.com/NKalavros/mdpr-full` <p>
 
 Then, continue by installing all the programs that will be needed as follows:
-1. ` sudo bash viennarna.sh `
-2. ` sudo bash qrnas.sh `
-3. ` sudo bash SimRNA.sh `
-4. ` sudo bash install_haddock.sh `
-5. ` sudo bash gromacs.sh `
+1. ``` sudo bash viennarna.sh ```
+2. ``` sudo bash qrnas.sh ```
+3. ``` sudo bash SimRNA.sh ```
+4. ``` sudo bash install_haddock.sh ```
+5. ``` sudo bash gromacs.sh ```
 
 You will need to install HADDOCK using:
-` sudo bash install_haddock.sh `
+``` sudo bash install_haddock.sh ```
 Right now this script is impossible for you to use, as it depends on one of my other repositories (haddock-deps), which is privated. The reason that repository is privated is because many of the programs that are used as part of HADDOCK's routines are free only for academic use and I do not have the right to redistribute them. **I will remake the scripts in order for the haddock-deps repository to be unneeded, however, it will still require you to place the programs in the working directory**. Those programs include, but are not necessarily limited to:
 
 * [CNS (Crystallography and NMR System) *needs license and academic emial*](https://www.mrc-lmb.cam.ac.uk/public/xtal/doc/cns/cns_1.3/main/frame.html)
@@ -56,7 +56,7 @@ After enabling billing, you need to go to the Menu (Top Left) > IAM & admin > Qu
 
 Lastly, create a project, name it however you want, I named mine *igem-athens-2019*. Be careful, it affects the code.
 
-Now you can use the code in `open_vm.sh` to download `google-cloud-sdk` and create a preemptible 80 core VM. Once you SSH into that VM, clone this repository using `git clone https://github.com/NKalavros/mdpr-full`. Run the above scripts but replace ` sudo bash install_haddock.sh ` with ` sudo bash install_haddock_others.sh `. You will need to have placed the following files into your working directory before running this script. They took me a dya to obtain and put in order. The script right now downloads them off of my account, which you *are supposed* not to have access to.
+Now you can use the code in `open_vm.sh` to download `google-cloud-sdk` and create a preemptible 80 core VM. Once you SSH into that VM, clone this repository using `git clone https://github.com/NKalavros/mdpr-full`. Run the above scripts but replace ` sudo bash install_haddock.sh ` with ` sudo bash install_haddock_others.sh `. You will need to have placed the following files into your working directory before running this script. They took me a day to obtain and put in order. The script right now downloads them off of my account, which you *are supposed* not to have access to.
 1. cns_solve_1.3_all.tar.gz
 2. x3dna-v2.4-linux-64bit.tar.gz
 3. foldxLinux64.tar_.gz
