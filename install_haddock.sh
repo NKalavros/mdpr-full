@@ -94,14 +94,18 @@ sudo sed -i "s/{===>} w_desolv_0=1.0;/{===>} w_desolv_0=0;/" ./protocols/run.cns
 sudo sed -i "s/{===>} w_desolv_1=1.0;/{===>} w_desolv_1=0;/" ./protocols/run.cns
 sudo sed -i "s/{===>} w_desolv_2=1.0;/{===>} w_desolv_2=0;/" ./protocols/run.cns
 cd ..
-
 git clone https://github.com/rlabduke/MolProbity
 cd MolProbity
 rm install_via_bootstrap.sh
 svn --quiet --non-interactive --trust-server-cert export https://github.com/rlabduke/MolProbity.git/trunk/install_via_bootstrap.sh
 sudo bash ./install_via_bootstrap.sh 40
-cd ..
+cd bin/linux
+sudo ln -s $(pwd)/* /usr/local/bin
+cd ../../..
 git clone https://github.com/haddocking/pdb-tools
+cd pdb-tools/pdbtools
+sudo cp $(pwd)/* /usr/lib/python3.6
+cd ../..
 #cd haddock2.2/examples/protein-dna
 #haddock2.2
 #cp dna-rna_restraints.def run1/data/sequence
