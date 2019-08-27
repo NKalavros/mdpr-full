@@ -130,7 +130,7 @@ def rna_tertiary_structure_prediction(filename):
             with open(fasta_clustering_logfile_filename,"w") as log: #Create a log file
                 args = ["clustering",fasta_idx + ".for_clustering.simrna",fraction_to_cluster,angstrom_cutoff] #Arguments for clustering
                 call(args,stdout = log) #Perform the actual clustering
-            main_logfile.write("Refining the PDB file, using the clustering runs" + "\n)
+            main_logfile.write("Refining the PDB file, using the clustering runs" + "\n")
             main_logfile.flush()
             for filename in sorted(os.listdir(cwd)): #Iterate one last time over the directory
                 if "4.4" in filename: #Get only the cluster files
