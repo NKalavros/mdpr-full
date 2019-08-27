@@ -66,4 +66,8 @@ Now you can use the code in `open_vm.sh` to download `google-cloud-sdk` and crea
 8. TENSORV2_PC9.tar
 9. haddock2.2.tgz (*Can be easily obtained from the website*)
 
+###Running a simple example
+
 After running the above programs, the VM is set. You can run everything in the MDPR directory if you wish. There is a `clean.sh` script to delete all results.
+
+Run `sudo python3 mutate_seqs.py`. This script creates 9 more fasta files by implementing a scaling mutation rate and a random starting index for mutations. It then calculates secondary structures for each of those files. Afterwards, it pipes all 10 of them (if they do not exist in the directory) to SimRNA using the Replica Exchange method with 8 replicates. It then clusters the results and uses the best cluster, which utilizes 1% of the structures and have a 4.4 Angstrom cluster to perform an all atom reconstruction of the aptamer. Lastly, it pipes that reconstruction to QRNAS and creates the final `.pdb` files.
