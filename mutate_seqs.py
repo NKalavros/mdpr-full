@@ -142,34 +142,42 @@ def rna_tertiary_structure_prediction(filename):
             qrnas_start = time.time()
             main_logfile.write("SimRNA subroutine complete, continuing with QRNAs.It took: " + str(round((time.time() - start),0)) + " seconds for " + fasta_idx + "\n")
             main_logfile.flush()
-            with open(fasta_idx + "qrnaconfig.txt","w") as f1: #Open up a new qrnaconfig for the specific case
-                with open("/usr/local/bin/configfile.txt","r") as f2: #Open the original qrnaconfig
-                    original_config_file = f2.read().splitlines() #Split lines
-                    with open(fasta_secstr_simrna_filename,"r") as f3: #Obtain secondary structure
-                        new_secstr = f3.read() #Save it in a variable
-                        original_config_file[-3] = "SECSTRUCT   " + new_secstr #Paste it in the new config file
-                        f1.write("\n".join(original_config_file)) #Save the new configfile
-            with open(fasta_idx +"qrna.logfile","w") as qrna_log:
-                QRNAS_filename = fasta_idx + ".for_clustering_thrs4.40A_clust01-000001_AA.pdb"
-                args = ["QRNA","-i",QRNAS_filename,"-c",fasta_idx + "qrnaconfig.txt","-o",fasta_idx + ".pdb"] #Set the arguments
-                call(args,stdout = qrna_log)
-            main_logfile.write("QRNAS is complete. It took:" + str(round((time.time() - qrnas_start),0)) + "seconds for" + fasta_idx + "\n")
-            main_logfile.flush()
-            main_logfile.write("The whole subroutine is complete, it took: " +str(time.time() - start) + "seconds for " + fasta_idx) #Time taken
-            main_logfile.flush()
-    return(fasta_idx)
+  return(fasta_idx)
+
+def rna_tertiary_structure_refinement(filename):
+    fasta_idx = filename.replace(".fasta","") #Get index
+    fasta_secstr_simrna_filename = fasta_idx + ".secstr.simrna"
+    with open(filename + "mpdr-rna.log","w") as main_logfile:
+        with open(fasta_idx + "qrnaconfig.txt","w") as f1: #Open up a new qrnaconfig for the specific case
+            with open("/usr/local/bin/configfile.txt","r") as f2: #Open the original qrnaconfig
+                original_config_file = f2.read().splitlines() #Split lines
+                with open(fasta_secstr_simrna_filename,"r") as f3: #Obtain secondary structure
+                    new_secstr = f3.read() #Save it in a variable
+                    original_config_file[-3] = "SECSTRUCT   " + new_secstr #Paste it in the new config file
+                    f1.write("\n".join(original_config_file)) #Save the new configfile
+         with open(fasta_idx +"qrna.logfile","w") as qrna_log:
+             QRNAS_filename = fasta_idx + ".for_clustering_thrs4.40A_clust01-000001_AA.pdb"
+             args = ["QRNA","-i",QRNAS_filename,"-c",fasta_idx + "qrnaconfig.txt","-o",fasta_idx + ".pdb"] #Set the arguments
+             call(args,stdout = qrna_log)
+             main_logfile.write("QRNAS is complete. It took:" + str(round((time.time() - qrnas_start),0)) + "seconds for" + fasta_idx + "\n")
+             main_logfile.flush()
+             main_logfile.write("The whole subroutine is complete, it took: " +str(time.time() - start) + "seconds for " + fasta_idx) #Time taken
+             main_logfile.flush()
+  return(fasta_idx)
             
 #Now all the secondary structure stuff is done, time to reiterate over the directory to calculate the tertiary structure
-num_threads = 10
-filenames = []
-for filename in sorted(os.listdir(cwd)): #Iterate over files in directory
-    if filename.endswith(".fasta"): #If they are fasta
-        filenames.append(filename)
-print("These are the filenames for which tertiary structure prediction will be performed")
-print(" ".join(filenames))
-with Pool(num_threads) as pool:
-    pool.map(rna_tertiary_structure_prediction,filenames)
-
+if __name__ == "__main__":
+    num_threads = 10
+    filenames = []
+    for filename in sorted(os.listdir(cwd)): #Iterate over files in directory
+        if filename.endswith(".fasta"): #If they are fasta
+            filenames.append(filename)
+    print("These are the filenames for which tertiary structure prediction will be performed")
+    print(" ".join(filenames))
+    with Pool(num_threads) as pool:
+        pool.map(rna_tertiary_structure_prediction,filenames)
+    with Pool(num_threads) as pool:
+        pool.map(rna_tertiary_structure_refinement,filenames)
 
 # In[ ]:
 
