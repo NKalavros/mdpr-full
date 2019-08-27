@@ -125,7 +125,7 @@ def rna_tertiary_structure_prediction(filename):
                             f1.write(f2.read()) #Paste them in a cat way
             angstrom_cutoff = "4.4"
             fraction_to_cluster = "0.01"
-            main_logfile.write(("Clustering the top " + fraction_to_cluster + " of each replicate using a" + angstrom_cutoff + "Angstrom cutoff" + "\n))
+            main_logfile.write(("Clustering the top " + fraction_to_cluster + " of each replicate using a" + angstrom_cutoff + "Angstrom cutoff" + "\n"))
             main_logfile.flush()
             with open(fasta_clustering_logfile_filename,"w") as log: #Create a log file
                 args = ["clustering",fasta_idx + ".for_clustering.simrna","0.01","4.4"] #Arguments for clustering
@@ -140,7 +140,7 @@ def rna_tertiary_structure_prediction(filename):
                     call(args) #Call the actual command
             QRNAS_filename = fasta_idx + "for_clustering_thrs4.40A_clust01-000001_AA.pdb"
             qrnas_start = time.time()
-            main_logfile.write("SimRNA subroutine complete, continuing with QRNAs.It took: " + str(round((time.time() - start),0)) + " seconds for " + fasta_idx + "\n)
+            main_logfile.write("SimRNA subroutine complete, continuing with QRNAs.It took: " + str(round((time.time() - start),0)) + " seconds for " + fasta_idx + "\n")
             main_logfile.flush()
             with open(fasta_idx + "qrnaconfig.txt","w") as f1: #Open up a new qrnaconfig for the specific case
                 with open("/usr/local/bin/configfile.txt","r") as f2: #Open the original qrnaconfig
