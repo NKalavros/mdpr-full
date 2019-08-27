@@ -135,7 +135,7 @@ def rna_tertiary_structure_prediction(filename):
         main_logfile.write("Refining the PDB file, using the clustering runs" + "\n")
         main_logfile.flush()
         for filename in sorted(os.listdir(cwd)): #Iterate one last time over the directory
-            if "4.4" in filename: #Get only the cluster files
+            if filename.startswith(fasta_idx + ".for_clustering") and "4.4" in filename: #Get only the cluster files
                 args = ["SimRNA_trafl2pdbs", fasta_terstr_filename + "_01-000001.pdb", filename, "1","AA"] #Create list of args
                 call(args) #Call the actual command
                 break
