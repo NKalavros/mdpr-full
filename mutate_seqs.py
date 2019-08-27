@@ -156,7 +156,7 @@ def rna_tertiary_structure_refinement(filename):
     with open(fasta_idx +"qrna.logfile","w") as qrna_log:
         QRNAS_filename = fasta_idx + ".for_clustering_thrs4.40A_clust01-000001_AA.pdb"
         args = ["QRNA","-i",QRNAS_filename,"-c",fasta_idx + "qrnaconfig.txt","-o",fasta_idx + ".pdb"] #Set the arguments
-        call(args,stdout = qrna_log)
+        call(args,stdout = qrna_log, shell = True)
         main_logfile.write("QRNAS is complete. It took:" + str(round((time.time() - start),0)) + "seconds for" + fasta_idx + "\n")
         main_logfile.flush()
     return(fasta_idx)
