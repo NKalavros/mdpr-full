@@ -65,3 +65,5 @@ Now you can use the code in `open_vm.sh` to download `google-cloud-sdk` and crea
 7. MODULE_PC9.tar
 8. TENSORV2_PC9.tar
 9. haddock2.2.tgz (*Can be easily obtained from the website*)
+
+After running the above programs, the VM is set. You can run everything in the MDPR directory if you wish. There is a `clean.sh` script to delete all results.
