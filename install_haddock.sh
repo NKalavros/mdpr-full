@@ -2,11 +2,16 @@
 sudo apt-get -yf install curl wget rar gzip tar python python-dev python-pip python3 python3-dev python3-pip git pymol freeglut3-dev libjpeg-dev libpng-dev zlib1g-dev gfortran gawk perl tcsh build-essential gawk
 sudo -H pip install setuptools wheel pdb-tools
 sudo -H pip3 install setuptools wheel pdb-tools
+sudo curl -L https://www.dropbox.com/s/ha7x8h09rtkmvad/x3dna-dssr?dl=0 --output x3dna-dssr
+sudo chmod 777 x3dna-dssr
+sudo mv ./x3dna-dssr /usr/local/bin/x3dna-dssr 
 sudo curl -L https://www.dropbox.com/s/v2n85avgnm6tohh/cns_solve_1.3_all.tar.gz?dl=0 --output cns13.tar.gz
 sudo curl -L https://www.dropbox.com/s/32h76w3l4gnaxxh/x3dna-v2.4-linux-64bit.tar.gz?dl=0 --output x3dna.tar.gz
 sudo curl -L https://www.dropbox.com/s/4fmks0cxcvu8pa1/foldxLinux64.tar_.gz?dl=0 --output foldx4.tar.gz
 tar -zxvf x3dna.tar.gz
 sudo rm -r x3dna.tar.gz
+cd x3dna-v2.4/src
+sudo make
 cd x3dna-v2.4/bin #Dive
 echo "export X3DNA=$(pwd)/.." >> ~/.bashrc
 echo "export PATH=\$PATH:$(pwd)" >> ~/.bashrc
