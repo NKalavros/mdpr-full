@@ -96,12 +96,12 @@ def rna_tertiary_structure_prediction(filename,angstrom_cutoff = "4.4",fraction_
             with open(fasta_secstr_simrna_filename,"w") as f2:
                 f2.write(secstr)
         #Sanity check message
-        main_logfile.write(("Performing tertiary structure prediction for: "+ fasta_seq_filename + "\n" + "Using a secondary structure file: " + fasta_secstr_filename + "\n" + "And outputting the results in: " + fasta_terstr_filename + "\n" + "Using the following logfile: " + fasta_terstr_logfile_filename + "\n"))
+        main_logfile.write(("Performing tertiary structure prediction for: "+ fasta_seq_filename + "\n" + "Using a secondary structure file: " + fasta_secstr_filename + "\n" + "And outputting the results in: " + fasta_terstr_filename + "\n"))
         main_logfile.flush()
         start = time.time()
         if fasta_terstr_filename not in os.listdir(cwd): #If that name doesn't exist
             args = ["SimRNA","-E","8","-s",fasta_seq_simrna_filename,"-S",fasta_secstr_simrna_filename,"-c","config.dat","-o",fasta_terstr_filename]
-            call(args) #Calling the terminal command
+            subprocess.call(args) #Calling the terminal command
             main_logfile.write("Initial structure prediction finished, performing clustering." + "\n")
             main_logfile.flush()
         with open(fasta_idx + ".for_clustering.simrna","w") as f1: #Open the file for clustering
@@ -114,13 +114,13 @@ def rna_tertiary_structure_prediction(filename,angstrom_cutoff = "4.4",fraction_
         main_logfile.write(("Clustering the top " + fraction_to_cluster + " of each replicate using a " + angstrom_cutoff + " Angstrom cutoff" + "\n"))
         main_logfile.flush()
         args = ["clustering",fasta_idx + ".for_clustering.simrna",fraction_to_cluster,angstrom_cutoff] #Arguments for clustering
-        call(args) #Perform the actual clustering
+        subprocess.call(args) #Perform the actual clustering
         main_logfile.write("Refining the PDB file, using the clustering runs" + "\n")
         main_logfile.flush()
         for filename in sorted(os.listdir(cwd)): #Iterate one last time over the directory
             if filename.startswith(fasta_idx + ".for_clustering") and "4.4" in filename: #Get only the cluster files
                 args = ["SimRNA_trafl2pdbs", fasta_terstr_filename + "_01-000001.pdb", filename, "1","AA"] #Create list of args
-                call(args) #Call the actual command
+                subprocess.call(args) #Call the actual command
                 break
         main_logfile.write("SimRNA subroutine complete, continuing with QRNAs.It took: " + str(round((time.time() - start),0)) + " seconds for " + fasta_idx + "\n")
         main_logfile.flush()
@@ -141,7 +141,7 @@ def rna_tertiary_structure_refinement(filename):
         with open(fasta_idx +"qrna.logfile","w") as qrna_log:
             QRNAS_filename = fasta_idx + ".for_clustering_thrs4.40A_clust01-000001_AA.pdb"
             args = ["QRNA","-i",QRNAS_filename,"-c",fasta_idx + "qrnaconfig.txt","-o",fasta_idx + ".pdb"] #Set the arguments
-            call(args,stdout = qrna_log)
+            subprocess.call(args,stdout = qrna_log)
             main_logfile.write("QRNAS is complete. It took:" + str(round((time.time() - start),0)) + "seconds for" + fasta_idx + "\n")
             main_logfile.flush()
     return(fasta_idx)
