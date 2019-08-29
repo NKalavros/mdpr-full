@@ -5,17 +5,33 @@
 
 
 #Importing the needed packages
-import os
-from subprocess import call
-import sys
-sys.path.append("/usr/local/lib/python3.6/site-packages/RNA")
-sys.path.append("/usr/local/bin/")
+iimport os
+import sys 
+import shutil
+import pprint
+import shlex
+import subprocess
+sys.path.append("/usr/local/lib/python3.6/site-packages/RNA") #Import ViennaRNA
+sys.path.append("/usr/local/bin/") #Import files from user local bin
 import numpy as np
 import _RNA as RNA
 import time
 from multiprocessing import Pool
 #Get the current working directory
 cwd = os.getcwd()
+#Source bashrc and bash_profile in python, just to be sure everything works
+command = shlex.split("env -i bash -c 'source ~/.bashrc && ~/.bash_profile'")
+proc = subprocess.Popen(command, stdout = subprocess.PIPE)
+for line in proc.stdout:
+  (key, _, value) = line.partition("=")
+  os.environ[key] = value
+proc.communicate()
+#Some entry variables that need to be changed, depending on your own HADDOCK version, these are the default values right
+haddock_dir = '/root/haddock-deps/haddock2.2"'
+password ='' #Insert your own PC's password here, if it has one, leave it blank if it does not
+cns_exec = "/root/haddock-deps/haddock2.2/../../cns_solve_1.3/intel-x86_64bit-linux/bin/cns"
+cores = "80"
+####Make the mutation into a function
 #Bases we have, the base_dict and its probability distribution
 bases = np.array(['A', 'U', 'G', 'C']) #Dictionary
 base_dict = {'A': 0, 'U': 1, 'G': 2, 'C': 3} #Str --> Idx
@@ -87,7 +103,6 @@ for i in range(fasta_max+1,fasta_max + 10): #Iterate over the maximum indices, p
 
 
 # In[13]:
-
 
 #Lets write a function for this
 def rna_tertiary_structure_prediction(filename):
@@ -162,7 +177,143 @@ def rna_tertiary_structure_refinement(filename):
             main_logfile.write("QRNAS is complete. It took:" + str(round((time.time() - start),0)) + "seconds for" + fasta_idx + "\n")
             main_logfile.flush()
     return(fasta_idx)
+
+def dot_bracket_to_cns(secondary_structure,filename):
+    fasta_idx = filename.replace(".fasta","") #Get index
+    stack = [] #Create a stack
+    counter = 1 #Create a counter
+    cns_format = "" #Create a variable to add the formatting
+    for i in range(len(secondary_structure)): #Begin iterating
+        if secondary_structure[i] == "(": #Put on stack
+            stack.append(i+1) #1 based counting instead of zero based counting
+        elif secondary_structure[i] == ")": #Start popping
+            pair = (stack.pop(),i+1) #Once again, 1 based counting instead of zero based counting
+            #Add the required lines
+            cns_format = cns_format + "{* selection for pair " + str(counter) +" base A *}" + "\n" + "{===>} base_a_" + str(counter) + "=(resid " + str(pair[0]) + " and segid B);" + "\n"
+            cns_format = cns_format + "{* selection for pair " + str(counter) +" base B *}" + "\n" + "{===>} base_b_" + str(counter) + "=(resid " + str(pair[1]) + " and segid B);" + "\n"
+            cns_format = cns_format + "\n"
+            counter = counter + 1
+    #Open the restraints file
+    with open("dna-rna_restraints_" + fasta_idx + ".def","w") as f1:
+        with open("dna-rna_restraints_prototype.def","r") as f2:
+            lines = f2.read().splitlines() #Get the lines
+            lines[210] = cns_format #Change a redundant line I placed for these ones
+            text = "\n".join(lines) #Join back the lines
+            f1.write(text) #Write the text to a more specific file
+            f1.flush() #Flush it
+    return(None) #Return
+
+def edit_pdb_for_haddock_compliance(filename):
+    fasta_idx = filename.replace(".fasta","") #Get index
+    with open(fasta_idx +".pdb","r") as f:
+        lines = f.read().splitlines()
+    for i in range(len(lines)):
+        if lines[i] != "TER":
+            if "U" in lines[i][17:20]:
+                lines[i] = lines[i][0:17] + "URA" + lines[i][20:]
+            elif "A" in lines[i][17:20]:
+                lines[i] = lines[i][0:17] + "ADE" + lines[i][20:]
+            elif "C" in lines[i][17:20]:
+                lines[i] = lines[i][0:17] + "CYT" + lines[i][20:]
+            elif "G" in lines[i][17:20]:
+                lines[i] = lines[i][0:17] + "GUA" + lines[i][20:]
+        elif lines[i] == "TER":
+            lines[i] = "END   "
+    with open(fasta_idx + ".pdb.haddock","w") as f:
+        text = "\n".join(lines)
+        f.write(text)
+        f.flush()
+    return(None)
+
+def change_runcns(filename):
+    fasta_idx = filename.replace(".fasta","") #Get index
+    with open("run_prototype.cns","r+") as f:
+        lines = f.read().splitlines()
+    lines[71] = lines[71].replace("protein-dna",fasta_idx+"docked")
+    lines[75] = lines[75].replace("/root/haddock-deps/haddock2.2/aptamers/run1",cwd+"/"+"run"+fasta_idx)
+    lines[89] = lines[89].replace("aptamer.pdb",fasta_idx + ".pdb.haddock")
+    lines[91] = lines[91].replace("aptamer.psf",fasta_idx + ".psf")
+    lines[95] = lines[95].replace("aptamer",fasta_idx)
+    lines[154] = lines[154].replace("/root/haddock-deps/haddock2.2",haddock_dir)
+    lines[158] = lines[158].replace("/root/haddock-deps/haddock2.2/aptamers/run1",cwd+"/"+"run"+fasta_idx)
+    lines[1772] = lines[1772].replace("/root/haddock-deps/haddock2.2/../../cns_solve_1.3/intel-x86_64bit-linux/bin/cns",cns_exec)
+    lines[1773] = lines[1773].replace("80",cores)
+    with open("run" + fasta_idx + ".cns","w") as f:
+        text = "\n".join(lines)
+        f.write(text)
+        f.flush()
+    return(None)
             
+def clean():
+    #Just clean all files by looping through the working directory
+    for file in os.listdir(cwd):
+        if file.endswith(".def") and file != "dna-rna_restraints_prototype.def":
+            os.remove(file)
+        elif file.endswith(".secfromtert"):
+            os.remove(file)
+        elif file.endswith(".cns") and file!= "run_prototype.cns":
+            os.remove(file)
+        elif file.endswith(".pdb.haddock"):
+            os.remove(file)
+        elif file.endswith(".html") and file != "new_prototype.html":
+            os.remove(file)
+        elif os.path.isdir(file):
+            shutil.rmtree(file)
+        
+    return(None)
+
+def secondary_from_tertiary(filename):
+    fasta_idx = filename.replace(".fasta","") #Get index
+    secondary_structure = "" #Create variable
+    pdb_filename = fasta_idx + ".pdb" #Get the pdb file
+    args = ["x3dna-dssr","i="+pdb_filename] #Create the arguments for DSSR
+    subprocess.call(args) #Run it
+    for file in os.listdir(cwd): #Iterate over the directory
+        if file.startswith("dssr"): #If the files are from dssr
+            if file == "dssr-2ndstrs.dbn": #If it is that specific file
+                with open("dssr-2ndstrs.dbn","r") as f: #Open it up
+                    secondary_structure = f.read().splitlines()[2] #Get the dot bracket notation
+            args = ["rm",file] #Remove all dssr created files anyway
+            subprocess.call(args) #Call it
+    with open(fasta_idx + ".secfromtert","w") as f: #Open a new kind of file
+        f.write(secondary_structure) #Write the structure in
+    return(secondary_structure) #Return variable
+
+def prepare_haddock(filename):
+    fasta_idx = filename.replace(".fasta","") #Get index
+    #Creating a new new.html from the prototype
+    with open("new.html","w") as f1: #Open the new one to write in
+        with open("new_prototype.html","r") as f2: #open the prototype to read from
+            lines = f2.read().splitlines() #Get the lines
+            lines.remove(lines[8]) #Remove ambiguous interactions blah blah
+            lines[8] = "HADDOCK_DIR=" + haddock_dir + "<BR>" #Change to fit your own directory
+            lines[10] = "PDB_FILE1=./crp_monomer.pdb<BR>" #Fit this also for your own protein
+            lines[11] = "PDB_FILE2=./" + fasta_idx + ".pdb.haddock<BR>" #Set the haddock formatted DNA file
+            lines[15] = "RUN_NUMBER=" + fasta_idx +"<BR>" #Run number based on index
+            text = "\n".join(lines) #Join back the text
+            f1.write(text) #Write it
+            f1.flush()  
+    subprocess.call(["python2",haddock_dir+"/Haddock/RunHaddock.py"]) #First call to haddock to perform the creation of the directory
+    try: #Try to remove a previous file if it so exists
+        os.remove("run.cns")
+    except:
+        pass #Pass it if it doesn't
+    os.rename("run"+fasta_idx+".cns","run.cns") #Rename for the new file
+    os.remove("run"+fasta_idx+"/"+"run.cns") #Remove inner run.cns
+    shutil.move("run.cns","run"+fasta_idx) #Move the outer run.cns to the inner file
+    os.rename("dna-rna_restraints_"+fasta_idx+".def","dna-rna_restraints.def") #Rename the restraints
+    shutil.move("dna-rna_restraints.def","run"+fasta_idx+"/data/sequence") #Move them inside
+    os.chdir("run"+fasta_idx) #Change dir
+    if password != "":
+        args = ["sudo","-S",password,"python2",haddock_dir+"/Haddock/RunHaddock.py"]
+        args = ["python2",haddock_dir+"/Haddock/RunHaddock.py"]
+        subprocess.call(args) #Second call to haddock to perform the docking
+    elif password == "":
+        args = ["sudo","python2",haddock_dir+"/Haddock/RunHaddock.py"]
+        subprocess.call(args)
+    os.chdir("..")
+    return(None)  
+  
 #Now all the secondary structure stuff is done, time to reiterate over the directory to calculate the tertiary structure
 if __name__ == "__main__":
     num_threads = 10
