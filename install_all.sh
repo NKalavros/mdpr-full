@@ -75,6 +75,9 @@ sudo make
 sudo make install
 cd ../..
 git clone https://NKalavros:yourpassword@github.com/NKalavros/haddock-deps.git
+mv haddock-deps/run_prototype.cns .
+mv haddock-deps/dna-rna_restraints_prototype.def .
+mv haddock-deps/new_prototype.html .
 cd haddock-deps
 gunzip naccess.rar.gz
 mkdir naccess
