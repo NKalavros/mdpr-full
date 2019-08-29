@@ -45,6 +45,7 @@ sed -i -e 's/NUMBER_OF_ITERATIONS 16000000/NUMBER_OF_ITERATIONS 800000/g' config
 sed -i -e "s/TRA_WRITE_IN_EVERY_N_ITERATIONS 1600/TRA_WRITE_IN_EVERY_N_ITERATIONS 800/" config.dat
 sudo cp -r ./data ..
 cp config.dat ../config.dat
+cd ..
 
 sudo curl -L https://www.dropbox.com/s/ha7x8h09rtkmvad/x3dna-dssr?dl=0 --output x3dna-dssr
 sudo chmod 777 x3dna-dssr
@@ -56,28 +57,35 @@ tar -zxvf x3dna.tar.gz
 sudo rm -r x3dna.tar.gz
 cd x3dna-v2.4/src
 sudo make
+cd ../..
+
 cd x3dna-v2.4/bin #Dive
 echo "export X3DNA=$(pwd)/.." >> ~/.bashrc
 echo "export PATH=\$PATH:$(pwd)" >> ~/.bashrc
 source ~/.bashrc
 sudo ln -s $(pwd)/* /usr/local/bin/
 cd ../..
+
 tar -zxvf foldx4.tar.gz
 sudo rm -r foldx4.tar.gz
 sudo mv ./foldx /usr/local/bin/foldx
 sudo mv ./rotabase.txt /usr/local/bin/rotabase.txt
 tar -zxvf cns13.tar.gz
 sudo rm -r cns13.tar.gz
+
 git clone https://github.com/pekrau/MolScript
 cd MolScript/code
 mv Makefile.basic Makefile
 sudo make
 sudo make install
 cd ../..
+
 git clone https://NKalavros:yourpassword@github.com/NKalavros/haddock-deps.git
+
 mv haddock-deps/run_prototype.cns .
 mv haddock-deps/dna-rna_restraints_prototype.def .
 mv haddock-deps/new_prototype.html .
+
 cd haddock-deps
 gunzip naccess.rar.gz
 mkdir naccess
@@ -89,29 +97,34 @@ sudo sed -i "s#                  write(4,'(a,i)')#                  write(4,'(a1
 sudo csh install.scr
 echo "export PATH=\$PATH:$(pwd)" >> ~/.bashrc
 cd ..
+
 tar -zxvf profit.tar.gz
 sudo rm -r profit.tar.gz
 cd ProFitV3.1/src
 sudo make
 echo "export PATH=\$PATH:$(pwd)" >> ~/.bashrc
 cd ../..
+
 zcat *.Z | tar -xvf -
 sudo rm -r pales.linux.tar.Z
 cd pales/linux
 echo "export PATH=\$PATH:$(pwd)" >> ~/.bashrc
 cd ../..
+
 tar -xvf MODULE_PC9.tar
 rm -r MODULE_PC9.tar
 cd MODULE_PC9
 sudo chmod +x module
 echo "export PATH=\$PATH:$(pwd)" >> ~/.bashrc
 cd ..
+
 tar -xvf TENSORV2_PC9.tar
 rm -r TENSORV2_PC9.tar
 cd TENSORV2_PC9
 sudo chmod +x tensor2
 echo "export PATH=\$PATH:$(pwd)" >> ~/.bashrc
 cd ..
+
 tar -zxvf haddock2.2.tgz
 rm -r haddock2.2.tgz
 cd haddock2.2
@@ -146,6 +159,7 @@ sudo sed -i "s/{===>} w_desolv_0=1.0;/{===>} w_desolv_0=0;/" ./protocols/run.cns
 sudo sed -i "s/{===>} w_desolv_1=1.0;/{===>} w_desolv_1=0;/" ./protocols/run.cns
 sudo sed -i "s/{===>} w_desolv_2=1.0;/{===>} w_desolv_2=0;/" ./protocols/run.cns
 cd ..
+
 git clone https://github.com/rlabduke/MolProbity
 cd MolProbity
 rm install_via_bootstrap.sh
