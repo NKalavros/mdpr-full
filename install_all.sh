@@ -154,6 +154,7 @@ sudo bash ./install_via_bootstrap.sh 40
 cd bin/linux
 sudo ln -s $(pwd)/* /usr/local/bin
 cd ../../..
+
 git clone https://github.com/haddocking/pdb-tools
 cd pdb-tools/pdbtools
 sudo cp $(pwd)/* /usr/lib/python3.6
@@ -167,6 +168,6 @@ mkdir build
 cd build
 cmake .. -DGMX_BUILD_OWN_FFTW=ON -DREGRESSIONTEST_DOWNLOAD=ON -DGMX_MPI=on -DCMAKE_C_COMPILER=mpicc -DCMAKE_CXX_COMPILER=mpicxx
 sudo make -j 80
-sudo make check
+make check
 sudo make install
 cd ../..
