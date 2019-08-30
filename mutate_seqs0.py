@@ -230,7 +230,9 @@ def change_runcns(filename):
     return(None)
 
 def prepare_haddock(filename):
+    print(filename)
     fasta_idx = filename.replace(".fasta","") #Get index
+    print(fasta_idx)
     #Creating a new new.html from the prototype
     with open("new.html","w") as f1: #Open the new one to write in
         with open("new_prototype.html","r") as f2: #open the prototype to read from
