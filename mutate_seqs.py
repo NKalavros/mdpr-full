@@ -19,11 +19,11 @@ from multiprocessing import Pool
 cwd = os.getcwd()
 sys.path.append(cwd)
 #Source bashrc and bash_profile in python, just to be sure everything works
-command = shlex.split("env -i bash -c 'source ~/.bashrc && ~/.bash_profile'")
+command = shlex.split("env -i sudo bash -c 'source ~/.bashrc && ~/.bash_profile'")
 proc = subprocess.Popen(command, stdout = subprocess.PIPE)
 for line in proc.stdout:
-  (key, _, value) = line.partition("=")
-  os.environ[key] = value
+    (key, _, value) = line.partition("=")
+    os.environ[key] = value
 proc.communicate()
 #Some entry variables that need to be changed, depending on your own HADDOCK version, these are the default values right
 haddock_dir = '/root/haddock-deps/haddock2.2'
@@ -263,7 +263,7 @@ def prepare_haddock(filename):
         args = ["python2",haddock_dir+"/Haddock/RunHaddock.py"]
         subprocess.call(args) #Second call to haddock to perform the docking
     elif password == "":
-        args = ["sudo","python2",haddock_dir+"/Haddock/RunHaddock.py"]
+        args = ["python2",haddock_dir+"/Haddock/RunHaddock.py"]
         subprocess.call(args)
     os.chrdir("structures/it1/water")
     args = ["sudo","-S",password,"python2",haddock_dir+"tools/ana_structures.csh"]
