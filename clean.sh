@@ -12,14 +12,14 @@ rm *.simrna*
 rm *.trafl
 rm *ss_detected
 rm *qrna*
-rm *mdpr-rna.log
+rm *rna.log
 rm *.pdb
 
 
 rm *.secfromtert
 rm *.pdb.haddock
 rm *.def
-rm*.cns
+rm *.cns
 
 mv ../0.fasta .
 mv ../cpr_monomer.pdb .
