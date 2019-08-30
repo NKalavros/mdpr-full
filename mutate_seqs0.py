@@ -16,6 +16,7 @@ import time
 from multiprocessing import Pool
 #Get the current working directory
 cwd = os.getcwd()
+sys.path.append(cwd)
 #Source bashrc and bash_profile in python, just to be sure everything works
 command = shlex.split("env -i bash -c 'source ~/.bashrc && ~/.bash_profile'")
 proc = subprocess.Popen(command, stdout = subprocess.PIPE)
