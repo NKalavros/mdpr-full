@@ -323,5 +323,6 @@ if __name__ == "__main__":
     list(map(dot_bracket_to_cns,secondary_structures,filenames)) #Create ten separate rna-dna_restraints.def files, one for each
     list(map(change_runcns,filenames)) #Create ten separate run.cns files, one for each
     list(map(edit_pdb_for_haddock_compliance,filenames)) #Edit all filenames to make sure they are HADDOCK compliant
-    with Pool(int(cores)) as pool:
-        pool.map(prepare_haddock,candidate) #Run docking
+    for candidate in filenames:
+      with Pool(int(cores)) as pool:
+          pool.map(prepare_haddock,candidate) #Run docking
