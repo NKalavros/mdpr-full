@@ -21,6 +21,8 @@ rm *.pdb.haddock
 rm *.def
 rm *.cns
 
+find -maxdepth 1 -type d -name "run*" -exec rm -rf {} \;
+
 mv ../0.fasta .
 mv ../crp_monomer.pdb .
 mv ../run_prototype.cns .
