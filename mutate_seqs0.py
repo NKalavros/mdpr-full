@@ -8,6 +8,7 @@ import shutil
 import pprint
 import shlex
 import subprocess
+import concurrent.futures
 sys.path.append("/usr/local/lib/python3.6/site-packages/RNA") #Import ViennaRNA
 sys.path.append("/usr/local/bin/") #Import files from user local bin
 import numpy as np
@@ -25,7 +26,7 @@ for line in proc.stdout:
   os.environ[key] = value
 proc.communicate()
 #Some entry variables that need to be changed, depending on your own HADDOCK version, these are the default values right
-haddock_dir = '/root/haddock-deps/haddock2.2"'
+haddock_dir = '/root/haddock-deps/haddock2.2'
 password ='' #Insert your own PC's password here, if it has one, leave it blank if it does not
 cns_exec = "/root/haddock-deps/haddock2.2/../../cns_solve_1.3/intel-x86_64bit-linux/bin/cns"
 cores = "80"
@@ -327,5 +328,5 @@ if __name__ == "__main__":
     list(map(change_runcns,filenames)) #Create ten separate run.cns files, one for each
     list(map(edit_pdb_for_haddock_compliance,filenames)) #Edit all filenames to make sure they are HADDOCK compliant
     for candidate in filenames:
-      with Pool(int(cores)) as pool:
-          pool.map(prepare_haddock,candidate) #Run docking
+        with ProcessPoolExecutor(int(cores)) as executor:
+            future = executor.submit(prepare_haddock,candidate)
