@@ -22,7 +22,7 @@ rm *.def
 rm *.cns
 
 mv ../0.fasta .
-mv ../cpr_monomer.pdb .
+mv ../crp_monomer.pdb .
 mv ../run_prototype.cns .
 mv ../new_prototype.html .
 mv ../dna-rna_restraints_prototype.def .
