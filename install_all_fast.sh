@@ -28,7 +28,7 @@ sudo sed -i "s/NUMTHREADS  08/NUMTHREADS  08/" configfile.txt
 sudo sed -i "s/#HBONDS     0/HBONDS     0/" configfile.txt
 sudo sed -i "s/#SSDETECT   0/SSDETECT   0/" configfile.txt
 sudo ln -s $(pwd)/* /usr/local/bin
-sudo cp -r $(pwd)/forcefield ..
+#sudo cp -r $(pwd)/forcefield ..
 sudo rm /usr/local/bin/configfile.txt
 sudo cp ./configfile.txt /usr/local/bin/configfile.txt
 echo "alias qrnaconfig='cat /usr/local/bin/configfile.txt'" >> ~/.bashrc
