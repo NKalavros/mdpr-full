@@ -8,7 +8,7 @@ import shutil
 import pprint
 import shlex
 import subprocess
-import concurrent.futures
+from import concurrent.futures import ProcessPoolExecutor
 sys.path.append("/usr/local/lib/python3.6/site-packages/RNA") #Import ViennaRNA
 sys.path.append("/usr/local/bin/") #Import files from user local bin
 import numpy as np
