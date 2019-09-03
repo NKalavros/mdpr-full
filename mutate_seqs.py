@@ -197,7 +197,7 @@ def edit_pdb_for_haddock_compliance(filename):
     for i in range(len(lines)):
         if lines[i] != "TER":
             if "U" in lines[i][17:20]:
-                lines[i] = lines[i][0:17] + "URA" + lines[i][20:]
+                lines[i] = lines[i][0:17] + "URI" + lines[i][20:]
             elif "A" in lines[i][17:20]:
                 lines[i] = lines[i][0:17] + "ADE" + lines[i][20:]
             elif "C" in lines[i][17:20]:
