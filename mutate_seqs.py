@@ -275,7 +275,6 @@ def prepare_haddock(filename):
     os.chdir("../../../..")
     with open("results.txt","w") as f:
         f.write(best_struct_name+"\t"+best_struct_score)
-        f.flush()
     return(None)  
 
 def clean():
