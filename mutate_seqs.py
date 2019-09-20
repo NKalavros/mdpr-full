@@ -235,7 +235,7 @@ def prepare_haddock(filename):
             lines[15] = "RUN_NUMBER=" + fasta_idx +"<BR>" #Run number based on index
             text = "\n".join(lines) #Join back the text
             f1.write(text) #Write it
-            f1.flush()  
+            f1.flush()
     subprocess.call(["python2",haddock_dir+"/Haddock/RunHaddock.py"]) #First call to haddock to perform the creation of the directory
     try: #Try to remove a previous file if it so exists
         os.remove("run.cns")
@@ -264,7 +264,7 @@ def prepare_haddock(filename):
     os.chdir("../../../..")
     with open("results.txt","w") as f:
         f.write(best_struct_name+"\t"+best_struct_score)
-    return(None)  
+    return(None)
 
 def clean():
     #Just clean all files by looping through the working directory
@@ -281,7 +281,6 @@ def clean():
             os.remove(file)
         elif os.path.isdir(file):
             shutil.rmtree(file)
-        
     return(None)
 
 def clean_gen_one():
@@ -292,7 +291,7 @@ def clean_gen_one():
             os.remove(file)
 
 if __name__ == "__main__":
-    
+
     #Get the current working directory
     cwd = os.getcwd()
     sys.path.append(cwd)
@@ -304,7 +303,7 @@ if __name__ == "__main__":
         (key, _, value) = line.partition("=")
         os.environ[key] = value
     proc.communicate()
-    
+
     #Creating a parser for you to pass the parameters in
     my_parser = argparse.ArgumentParser(description='haddock2.2 directory,\n number of cores,\n password (usually not needed),\n starting sequence (fasta file),\n,number of generations,\n,starting generation')
     #Some entry variables that need to be changed, depending on your own HADDOCK version, these are the default values right
@@ -313,7 +312,7 @@ if __name__ == "__main__":
     my_parser.add_argument('p',type=str,nargs='?',help="Password for admin access, unneeded",default ="oneshot")
     my_parser.add_argument('f',type=str,nargs='?',help="The first file to start the program",default ="0.fasta")
     my_parser.add_argument('g',type=str,nargs='?',help="The number of generation that the program should run for, time per generation depends heavily on number of cores",default = "10")
-    
+
     #Read args in and assign them
     args = my_parser.parse_args()
     cores = args.c
@@ -321,14 +320,15 @@ if __name__ == "__main__":
     password = args.p #Insert your own PC's password here, if it has one, leave it blank if it does not
     firstfile = args.f
     generations = args.g
-    
+
     #Get the sequence length for the aptamer you will be developing
     with open(firstfile,"r") as f:
-        sequence_length = len(f.read().splitlines()[1]
-    cns_exec = haddock_dir + "/../../cns_solve_1.3/intel-x86_64bit-linux/bin/cns" #CNS executable location
-                          
+        sequence_length = len(f.read().splitlines()[1])
+
+	cns_exec = haddock_dir + "/../../cns_solve_1.3/intel-x86_64bit-linux/bin/cns" #CNS executable location
+
     print("Starting")
-    
+
     num_threads = 10 #Ten sequences per generation
     #Setting up gen one
     with open(firstfile,"r") as f: #Open up the original file
