@@ -352,6 +352,7 @@ if __name__ == "__main__":
     with Pool(num_threads) as pool: #Thread pool 1
         print(num_threads)
         pool.map(rna_tertiary_structure_prediction,filenames) #Predict tertiary structure
+        print("Sanity")
     with Pool(num_threads) as pool: #Thread pool 2 (in order to synchronise the two)
         pool.map(rna_tertiary_structure_refinement,filenames) #Refine tertiary structure
     secondary_structures = list(map(secondary_from_tertiary,filenames)) #This takes too little to need pooling, get secondary structure from tertiary
