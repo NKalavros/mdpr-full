@@ -21,19 +21,12 @@ from concurrent.futures import ProcessPoolExecutor
 #Get the current working directory
 cwd = os.getcwd()
 sys.path.append(cwd)
-#Source bashrc and bash_profile in python, just to be sure everything works
-command = shlex.split("env -i sudo bash -c 'source ~/.bashrc && ~/.bash_profile'")
-proc = subprocess.Popen(command, stdout = subprocess.PIPE)
-for line in proc.stdout:
-    (key, _, value) = line.partition("=")
-    os.environ[key] = value
-proc.communicate()
 #Creating a parser for you to pass the parameters in
 my_parser = argparse.ArgumentParser(description='haddock2.2 directory,\n number of cores,\n password (usually not needed),\n starting sequence (fasta file),\n,number of generations,\n,starting generation')
 #Some entry variables that need to be changed, depending on your own HADDOCK version, these are the default values right
 my_parser.add_argument('d',type=str,nargs='?',help="Absolute path to HADDOCK 2.2 directory",default = "/root/haddock-deps/haddock2.2")
 my_parser.add_argument('c',type=str,nargs='?',help="Number of cores to be used by multiprocessing (default is 96)",default = "96")
-my_parser.add_argument('p',type=str,nargs='?',help="Password for admin access, unneeded",default ="")
+my_parser.add_argument('p',type=str,nargs='?',help="Password for admin access, unneeded",default ="oneshot")
 my_parser.add_argument('f',type=str,nargs='?',help="The first file to start the program",default ="0.fasta")
 my_parser.add_argument('g',type=str,nargs='?',help="The number of generation that the program should run for, time per generation depends heavily on number of cores",default = "10")
 
@@ -43,6 +36,13 @@ haddock_dir = args.d
 password = args.p #Insert your own PC's password here, if it has one, leave it blank if it does not
 firstfile = args.f
 generations = args.g
+#Source bashrc and bash_profile in python, just to be sure everything works
+command = shlex.split("env -i bash -c 'source ~/.bashrc && ~/.bash_profile'")
+proc = subprocess.Popen(command, stdout = subprocess.PIPE)
+for line in proc.stdout:
+    (key, _, value) = line.partition("=")
+    os.environ[key] = value
+proc.communicate()
 with open(firstfile,"r") as f:
     sequence_length = len(f.read().splitlines()[1])
           
