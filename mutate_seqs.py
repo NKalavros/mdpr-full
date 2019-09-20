@@ -72,6 +72,7 @@ def mutate_seq_and_get_secondary_structure(filename,fasta_max):
 
 #Lets write a function for this
 def rna_tertiary_structure_prediction(filename,angstrom_cutoff = "4.4",fraction_to_cluster = "0.01"):
+    print(sequence_length)
     if sequence_length is not None:
         angstrom_cutoff = str(sequence_length/10)
     print("Using an angstrom cutoff of:",angstrom_cutoff)
