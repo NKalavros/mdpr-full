@@ -392,11 +392,11 @@ if __name__ == "__main__":
     elif continuation==1:
         filenames = get_best_sequences("results.txt")[::-1] #Reverse to get best scores first (descending order)
         filenames = filenames[0:10] #Get the 10 best ones to use as parents
+        max_index_prev = get_max_index()
         for i in range(9): #Create 9 offspring from the first file
             max_index = get_max_index() #Get the max index each time, just to be sure that the creation is going fine
             mutate_seq_and_get_secondary_structure(filenames[i],max_index) #Create .fasta and .secstr files for them
-        max_index = int(get_max_index())
-        filenames = list(range(int(max_index),int(max_index)+10)) #Get the filenames from the Nth generation (those are set)
+        filenames = list(range(int(max_index_prev)+1,int(max_index_prev)+10)) #Get the filenames from the Nth generation (those are set)
         filenames = [str(x) + ".fasta" for x in filenames] #Get the actual fasta name (not that it really matters)
         with Pool(num_threads) as pool: #Thread pool 1
             pool.map(rna_tertiary_structure_prediction,filenames) #Predict tertiary structure
