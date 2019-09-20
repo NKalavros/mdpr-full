@@ -419,7 +419,7 @@ if __name__ == "__main__":
                 with ProcessPoolExecutor(int(cores)) as executor:
                     future = executor.submit(prepare_haddock,candidate)
             print("First generation is complete, uploading!")
-            args = ["gsutil -m","cp","./*.fasta","gs://mdpr-bucket"]
+            args = ["gsutil", "-m","cp","./*.fasta","gs://mdpr-bucket"]
             subprocess.call(args)
             args = ["gsutil","cp","./results.txt","gs://mdpr-bucket"]
             subprocess.call(args)
