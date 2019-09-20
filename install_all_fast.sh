@@ -16,7 +16,8 @@ sudo make -j 60
 #sudo make check
 sudo make install -j 60
 cd ..
-
+NPROC=$(($(nproc) - 0))
+onetenth=$((NPROC/10))
 wget http://genesilico.pl/QRNAS/QRNAS.tar.gz
 tar -xvzf QRNAS.tar.gz
 rm -r QRNAS.tar.gz
@@ -24,7 +25,7 @@ cd QRNAS
 sudo make parallel
 sudo sed -i "s/#WRITEFREQ  1000/WRITEFREQ  1000/" configfile.txt
 sudo sed -i "s/STEPS     5000/STEPS     10000/" configfile.txt
-sudo sed -i "s/NUMTHREADS  08/NUMTHREADS  08/" configfile.txt
+sudo sed -i "s/NUMTHREADS  08/NUMTHREADS  $onetenth/" configfile.txt
 sudo sed -i "s/#HBONDS     0/HBONDS     0/" configfile.txt
 sudo sed -i "s/#SSDETECT   0/SSDETECT   0/" configfile.txt
 sudo ln -s $(pwd)/* /usr/local/bin
