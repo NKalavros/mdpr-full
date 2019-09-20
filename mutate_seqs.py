@@ -72,10 +72,9 @@ def mutate_seq_and_get_secondary_structure(filename,fasta_max):
 
 #Lets write a function for this
 def rna_tertiary_structure_prediction(filename,angstrom_cutoff = "4.4",fraction_to_cluster = "0.01"):
-    print(sequence_length)
-    if sequence_length is not None:
-        angstrom_cutoff = str(sequence_length/10)
-    print("Using an angstrom cutoff of:",angstrom_cutoff)
+    
+    #if sequence_length is not None:
+    #    angstrom_cutoff = str(sequence_length/10)
     fasta_idx = filename.replace(".fasta","") #Get index
     fasta_seq_filename = fasta_idx + ".fasta"
     fasta_seq_simrna_filename = fasta_idx + "fasta.simrna" #Create dummy file for simRNA
@@ -351,9 +350,7 @@ if __name__ == "__main__":
     filenames = list(range(int(firstfile_idx_temp),int(firstfile_idx_temp))) #Get the filenames from the first generation (those are set)
     filenames = [str(x) + ".fasta" for x in filenames] #Get the actual fasta name (not that it really matters)
     with Pool(num_threads) as pool: #Thread pool 1
-        print(num_threads)
         pool.map(rna_tertiary_structure_prediction,filenames) #Predict tertiary structure
-        print("Sanity")
     with Pool(num_threads) as pool: #Thread pool 2 (in order to synchronise the two)
         pool.map(rna_tertiary_structure_refinement,filenames) #Refine tertiary structure
     secondary_structures = list(map(secondary_from_tertiary,filenames)) #This takes too little to need pooling, get secondary structure from tertiary
