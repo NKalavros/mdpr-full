@@ -335,7 +335,7 @@ if __name__ == "__main__":
     my_parser.add_argument('-p',metavar='p',type=str,nargs='?',help="Password for admin access, unneeded",default ="oneshot")
     my_parser.add_argument('-f',metavar='f',type=str,nargs='?',help="The first file to start the program",default ="0.fasta")
     my_parser.add_argument('-g',metavar='g',type=str,nargs='?',help="The number of generation that the program should run for, time per generation depends heavily on number of cores",default = "5")
-    my_parser.add_argument('-cont',metavar='cont',, type = int, nargs="?", help="Skips creating files for the first generation. 0 creates a first generation and 1 skips ahead",default="0")
+    my_parser.add_argument('-cont',metavar='cont', type = int, nargs="?", help="Skips creating files for the first generation. 0 creates a first generation and 1 skips ahead",default="0")
 
 
     #Read args in and assign them
