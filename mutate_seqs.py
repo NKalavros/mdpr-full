@@ -291,7 +291,6 @@ def clean_gen_one():
             os.remove(file)
 
 if __name__ == "__main__":
-
     #Get the current working directory
     cwd = os.getcwd()
     sys.path.append(cwd)
@@ -302,6 +301,7 @@ if __name__ == "__main__":
     for line in proc.stdout:
         (key, _, value) = line.partition("=")
         os.environ[key] = value
+	
     proc.communicate()
 
     #Creating a parser for you to pass the parameters in
@@ -315,9 +315,10 @@ if __name__ == "__main__":
 
     #Read args in and assign them
     args = my_parser.parse_args()
-    cores = args.c
+
     haddock_dir = args.d
-    password = args.p #Insert your own PC's password here, if it has one, leave it blank if it does not
+    cores = args.c
+    password = args.p
     firstfile = args.f
     generations = args.g
 	
@@ -331,6 +332,7 @@ if __name__ == "__main__":
     print("Starting")
 
     num_threads = 10 #Ten sequences per generation
+
     #Setting up gen one
     with open(firstfile,"r") as f: #Open up the original file
         first_seq = f.read().splitlines()[1] #Obtain sequence
