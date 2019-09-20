@@ -260,7 +260,7 @@ def prepare_haddock(filename):
         subprocess.call(args)
     os.chrdir("structures/it1/water")
     args = [haddock_dir + "/tools/ana_structures.csh"]
-    call(args)
+    subprocess.call(args)
     with open("structures_haddock-sorted.stat","r") as f:
         lines = f.read().splitlines()
         best_struct = lines[1]
@@ -335,7 +335,7 @@ if __name__ == "__main__":
     my_parser.add_argument('p',type=str,nargs='?',help="Password for admin access, unneeded",default ="oneshot")
     my_parser.add_argument('f',type=str,nargs='?',help="The first file to start the program",default ="0.fasta")
     my_parser.add_argument('g',type=str,nargs='?',help="The number of generation that the program should run for, time per generation depends heavily on number of cores",default = "5")
-    my_parser.add_argument("cont", type = str, nargs="?", help="Skips creating files for the first generation. 0 creates a first generation and 1 skips ahead",default="0")
+    my_parser.add_argument("cont", type = int, nargs="?", help="Skips creating files for the first generation. 0 creates a first generation and 1 skips ahead",default="0")
 
 
     #Read args in and assign them
@@ -357,7 +357,7 @@ if __name__ == "__main__":
     print("Starting")
 
     num_threads = 10 #Ten sequences per generation
-    if continuation=="0":
+    if continuation==0:
         #Setting up gen one
         firstfile_idx = firstfile.replace(".fasta","")
         with open(firstfile,"r") as f: #Open up the original file
@@ -385,10 +385,10 @@ if __name__ == "__main__":
                 future = executor.submit(prepare_haddock,candidate)
         print("First generation is complete, uploading!")
         args = ["gsutil","cp","./*.fasta","gs://mdpr-bucket"]
-        call(args)
+        subprocess.call(args)
         args = ["gsutil","cp","./results.txt","gs://mdpr-bucket"]
-        call(args)
-    elif continuation=="1":
+        subprocess.call(args)
+    elif continuation==1:
         filenames = get_best_sequences("results.txt")[::-1] #Reverse to get best scores first (descending order)
         filenames = filenames[0:10] #Get the 10 best ones to use as parents
         for i in range(9): #Create 9 offspring from the first file
@@ -410,6 +410,6 @@ if __name__ == "__main__":
                 future = executor.submit(prepare_haddock,candidate)
         print("First generation is complete, uploading!")
         args = ["gsutil","cp","./*.fasta","gs://mdpr-bucket"]
-        call(args)
+        subprocess.call(args)
         args = ["gsutil","cp","./results.txt","gs://mdpr-bucket"]
-        call(args)
+        subprocess.call(args)
