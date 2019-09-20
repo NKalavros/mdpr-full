@@ -1,10 +1,13 @@
 #!/usr/bin/env python
 # coding: utf-8
+import sys
+#Add some directories to the path
+sys.path.append("/usr/local/lib/python3.6/site-packages/RNA") #Import ViennaRNA
+sys.path.append("/usr/local/bin/") #Import files from user local bin
 
 #Importing the needed packages
 import os
 import argparse
-import sys 
 import shutil
 import pprint
 import shlex
@@ -14,8 +17,6 @@ import _RNA as RNA
 import time
 from multiprocessing import Pool
 from concurrent.futures import ProcessPoolExecutor
-sys.path.append("/usr/local/lib/python3.6/site-packages/RNA") #Import ViennaRNA
-sys.path.append("/usr/local/bin/") #Import files from user local bin
 #Get the current working directory
 cwd = os.getcwd()
 sys.path.append(cwd)
