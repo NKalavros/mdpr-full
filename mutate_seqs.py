@@ -340,14 +340,14 @@ if __name__ == "__main__":
     with open(firstfile,"r") as f: #Open up the original file
         first_seq = f.read().splitlines()[1] #Obtain sequence
     (ss,mfe) = RNA.fold(first_seq) #Fold it
-    with open(firstfile_idx+".secstr,"w") as f: #Write secondary structure file
+    with open(firstfile_idx+".secstr","w") as f: #Write secondary structure file
         f.write(">" + firstfile_idx + " " + str(mfe)) #Right energy
         f.write("\n")
         f.write(ss) #Write sequence
     for i in range(9): #Create 9 offspring from the first file
         max_index = get_max_index() #Get the max index each time, just to be sure that the creation is going fine
         mutate_seq_and_get_secondary_structure(firstfile,max_index) #Create .fasta and .secstr files for them
-    filenames = list(range(int(firstfile_idx_temp),int(firstfile_idx_temp)+10)) #Get the filenames from the first generation (those are set)
+    filenames = list(range(int(firstfile_idx),int(firstfile_idx)+10)) #Get the filenames from the first generation (those are set)
     filenames = [str(x) + ".fasta" for x in filenames] #Get the actual fasta name (not that it really matters)
     with Pool(num_threads) as pool: #Thread pool 1
         pool.map(rna_tertiary_structure_prediction,filenames) #Predict tertiary structure
