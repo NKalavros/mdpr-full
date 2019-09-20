@@ -291,6 +291,7 @@ def clean_gen_one():
             os.remove(file)
 
 if __name__ == "__main__":
+
     #Get the current working directory
     cwd = os.getcwd()
     sys.path.append(cwd)
@@ -301,7 +302,6 @@ if __name__ == "__main__":
     for line in proc.stdout:
         (key, _, value) = line.partition("=")
         os.environ[key] = value
-	
     proc.communicate()
 
     #Creating a parser for you to pass the parameters in
@@ -315,16 +315,15 @@ if __name__ == "__main__":
 
     #Read args in and assign them
     args = my_parser.parse_args()
-
-    haddock_dir = args.d
     cores = args.c
-    password = args.p
+    haddock_dir = args.d
+    password = args.p #Insert your own PC's password here, if it has one, leave it blank if it does not
     firstfile = args.f
     generations = args.g
-	
+
     #Get the sequence length for the aptamer you will be developing
     with open(firstfile,"r") as f:
-	global sequence_length
+        global sequence_length
         sequence_length = len(f.read().splitlines()[1])
 
     cns_exec = haddock_dir + "/../../cns_solve_1.3/intel-x86_64bit-linux/bin/cns" #CNS executable location
@@ -332,7 +331,6 @@ if __name__ == "__main__":
     print("Starting")
 
     num_threads = 10 #Ten sequences per generation
-
     #Setting up gen one
     with open(firstfile,"r") as f: #Open up the original file
         first_seq = f.read().splitlines()[1] #Obtain sequence
