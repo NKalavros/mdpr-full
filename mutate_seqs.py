@@ -18,38 +18,7 @@ import _RNA as RNA
 import time
 from multiprocessing import Pool
 from concurrent.futures import ProcessPoolExecutor
-#Get the current working directory
-cwd = os.getcwd()
-sys.path.append(cwd)
-#Creating a parser for you to pass the parameters in
-my_parser = argparse.ArgumentParser(description='haddock2.2 directory,\n number of cores,\n password (usually not needed),\n starting sequence (fasta file),\n,number of generations,\n,starting generation')
-#Some entry variables that need to be changed, depending on your own HADDOCK version, these are the default values right
-my_parser.add_argument('d',type=str,nargs='?',help="Absolute path to HADDOCK 2.2 directory",default = "/root/haddock-deps/haddock2.2")
-my_parser.add_argument('c',type=str,nargs='?',help="Number of cores to be used by multiprocessing (default is 96)",default = "96")
-my_parser.add_argument('p',type=str,nargs='?',help="Password for admin access, unneeded",default ="oneshot")
-my_parser.add_argument('f',type=str,nargs='?',help="The first file to start the program",default ="0.fasta")
-my_parser.add_argument('g',type=str,nargs='?',help="The number of generation that the program should run for, time per generation depends heavily on number of cores",default = "10")
 
-args = my_parser.parse_args()
-cores = args.c
-haddock_dir = args.d
-password = args.p #Insert your own PC's password here, if it has one, leave it blank if it does not
-firstfile = args.f
-generations = args.g
-
-print("Starting")
-#Source bashrc and bash_profile in python, just to be sure everything works
-command = shlex.split("env -i bash -c 'source ~/.bashrc && ~/.bash_profile'")
-proc = subprocess.Popen(command, stdout = subprocess.PIPE)
-for line in proc.stdout:
-    (key, _, value) = line.partition("=")
-    os.environ[key] = value
-proc.communicate()
-with open(firstfile,"r") as f:
-    sequence_length = len(f.read().splitlines()[1])
-          
-
-cns_exec = haddock_dir + "/../../cns_solve_1.3/intel-x86_64bit-linux/bin/cns"
 ####Make the mutation into a function
 def get_max_index():
     fasta_max = [] #Get the max index of the filenames, in order to not calculate more things than needed
@@ -323,7 +292,44 @@ def clean_gen_one():
             os.remove(file)
 
 if __name__ == "__main__":
-    num_threads = 10
+    
+    #Get the current working directory
+    cwd = os.getcwd()
+    sys.path.append(cwd)
+
+    #Source bashrc and bash_profile in python, just to be sure everything works
+    command = shlex.split("env -i bash -c 'source ~/.bashrc && ~/.bash_profile'")
+    proc = subprocess.Popen(command, stdout = subprocess.PIPE)
+    for line in proc.stdout:
+        (key, _, value) = line.partition("=")
+        os.environ[key] = value
+    proc.communicate()
+    
+    #Creating a parser for you to pass the parameters in
+    my_parser = argparse.ArgumentParser(description='haddock2.2 directory,\n number of cores,\n password (usually not needed),\n starting sequence (fasta file),\n,number of generations,\n,starting generation')
+    #Some entry variables that need to be changed, depending on your own HADDOCK version, these are the default values right
+    my_parser.add_argument('d',type=str,nargs='?',help="Absolute path to HADDOCK 2.2 directory",default = "/root/haddock-deps/haddock2.2")
+    my_parser.add_argument('c',type=str,nargs='?',help="Number of cores to be used by multiprocessing (default is 96)",default = "96")
+    my_parser.add_argument('p',type=str,nargs='?',help="Password for admin access, unneeded",default ="oneshot")
+    my_parser.add_argument('f',type=str,nargs='?',help="The first file to start the program",default ="0.fasta")
+    my_parser.add_argument('g',type=str,nargs='?',help="The number of generation that the program should run for, time per generation depends heavily on number of cores",default = "10")
+    
+    #Read args in and assign them
+    args = my_parser.parse_args()
+    cores = args.c
+    haddock_dir = args.d
+    password = args.p #Insert your own PC's password here, if it has one, leave it blank if it does not
+    firstfile = args.f
+    generations = args.g
+    
+    #Get the sequence length for the aptamer you will be developing
+    with open(firstfile,"r") as f:
+        sequence_length = len(f.read().splitlines()[1]
+    cns_exec = haddock_dir + "/../../cns_solve_1.3/intel-x86_64bit-linux/bin/cns" #CNS executable location
+                          
+    print("Starting")
+    
+    num_threads = 10 #Ten sequences per generation
     #Setting up gen one
     with open(firstfile,"r") as f: #Open up the original file
         first_seq = f.read().splitlines()[1] #Obtain sequence
