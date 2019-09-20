@@ -31,3 +31,8 @@ source ~/.bashrc
 source ~/.bash_profile
 #Run the mutate_seqs.py script in your VM.
 python3 mutate_seqs.py
+#If you've already started, then you need something different
+#Get the previous files
+gsutil -m cp gs://mdpr-bucket/* .
+#Start new generations
+python3 mutate_seqs.py -cont 1
