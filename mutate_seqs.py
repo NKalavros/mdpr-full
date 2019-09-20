@@ -345,7 +345,7 @@ if __name__ == "__main__":
     password = args.p #Insert your own PC's password here, if it has one, leave it blank if it does not
     firstfile = args.f
     generations = args.g
-    continuation = args.cont
+    continuation = int(args.cont)
 
     #Get the sequence length for the aptamer you will be developing
     with open(firstfile,"r") as f:
