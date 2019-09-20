@@ -350,6 +350,7 @@ if __name__ == "__main__":
     filenames = list(range(int(firstfile_idx_temp),int(firstfile_idx_temp))) #Get the filenames from the first generation (those are set)
     filenames = [str(x) + ".fasta" for x in filenames] #Get the actual fasta name (not that it really matters)
     with Pool(num_threads) as pool: #Thread pool 1
+        print(num_threads)
         pool.map(rna_tertiary_structure_prediction,filenames) #Predict tertiary structure
     with Pool(num_threads) as pool: #Thread pool 2 (in order to synchronise the two)
         pool.map(rna_tertiary_structure_refinement,filenames) #Refine tertiary structure
