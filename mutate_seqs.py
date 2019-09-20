@@ -36,7 +36,7 @@ my_parser.add_argument('p',type=str,help="Password for admin access, unneeded",d
 my_parser.add_argument('f',type=str,help="The first file to start the program",default ="0.fasta")
 my_parser.add_argument('g',type=str,help="The number of generation that the program should run for, time per generation depends heavily on number of cores",default = "10")
 
-args = parser.parse_args()
+args = my_parser.parse_args()
 cores = args.c
 haddock_dir = args.d
 password = args.p #Insert your own PC's password here, if it has one, leave it blank if it does not
