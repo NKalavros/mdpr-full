@@ -314,9 +314,8 @@ def get_best_sequences(file):
             if names_sorted[i][j].isdigit():
                 new_string = new_string + names_sorted[i][j]
         names_sorted[i] = new_string
-
-    new_filenames = [x[0] for x in names_sorted]
-    new_filenames = [x + ".fasta" for x in new_filenames]
+    print(names_sorted)
+    new_filenames = [x + ".fasta" for x in names_sorted]
     
     return(new_filenames)
 
