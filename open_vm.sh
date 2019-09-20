@@ -24,7 +24,9 @@ rm -r mdpr-full
 nano install_all_fast.sh
 #Install everything, this script takes about 15 minutes to run
 sudo bash install_all_fast.sh
-#Source the files needed
+#Source the files needed, mod them too
+chmod 777 ~/.bashrc
+chmod 777 ~/.bash_profile
 source ~/.bashrc
 source ~/.bash_profile
 #Run the mutate_seqs.py script in your VM.
