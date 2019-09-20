@@ -248,7 +248,7 @@ def change_runcns(filename):
         f.write(text)
         f.flush()
     return(None)
-
+#Now all the secondary structure stuff is done, time to reiterate over the directory to calculate the tertiary structure
 def prepare_haddock(filename):
     print(filename)
     fasta_idx = filename.replace(".fasta","") #Get index
@@ -320,7 +320,6 @@ def clean_gen_one():
         if file[0] in filenames:
             os.remove(file)
 
-#Now all the secondary structure stuff is done, time to reiterate over the directory to calculate the tertiary structure
 if __name__ == "__main__":
     num_threads = 10
     #Setting up gen one
