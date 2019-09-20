@@ -30,7 +30,7 @@ proc.communicate()
 my_parser = argparse.ArgumentParser(description='haddock2.2 directory,\n number of cores,\n password (usually not needed),\n starting sequence (fasta file),\n,number of generations,\n,starting generation')
 #Some entry variables that need to be changed, depending on your own HADDOCK version, these are the default values right
 my_parser.add_argument('d',type=str,help="Absolute path to HADDOCK 2.2 directory",default = "/root/haddock-deps/haddock2.2")
-my_parser.add_argument('c',type=str,help="Number of cores to be used by multiprocessing (default is 160)",default = "160")
+my_parser.add_argument('c',type=str,help="Number of cores to be used by multiprocessing (default is 96)",default = "96")
 my_parser.add_argument('p',type=str,help="Password for admin access, unneeded",default ="")
 my_parser.add_argument('f',type=str,help="The first file to start the program",default ="0.fasta")
 my_parser.add_argument('g',type=str,help="The number of generation that the program should run for, time per generation depends heavily on number of cores",default = "10")
