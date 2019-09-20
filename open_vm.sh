@@ -22,5 +22,10 @@ mv mdpr-full/* .
 rm -r mdpr-full
 #While the quality of life changes are not implemented, change the password to my own in order to obtain access to HADDOCK's dependencies
 nano install_all_fast.sh
-#Install everything
+#Install everything, this script takes about 15 minutes to run
 sudo bash install_all_fast.sh
+#Source the files needed
+source ~/.bashrc
+source ~/.bash_profile
+#Run the mutate_seqs.py script in your VM.
+python3 mutate_seqs.py
