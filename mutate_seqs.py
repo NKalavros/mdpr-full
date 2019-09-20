@@ -36,6 +36,8 @@ haddock_dir = args.d
 password = args.p #Insert your own PC's password here, if it has one, leave it blank if it does not
 firstfile = args.f
 generations = args.g
+
+print("Starting")
 #Source bashrc and bash_profile in python, just to be sure everything works
 command = shlex.split("env -i bash -c 'source ~/.bashrc && ~/.bash_profile'")
 proc = subprocess.Popen(command, stdout = subprocess.PIPE)
