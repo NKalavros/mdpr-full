@@ -3,18 +3,19 @@
 
 #Importing the needed packages
 import os
+import argparse
 import sys 
 import shutil
 import pprint
 import shlex
 import subprocess
-from concurrent.futures import ProcessPoolExecutor
-sys.path.append("/usr/local/lib/python3.6/site-packages/RNA") #Import ViennaRNA
-sys.path.append("/usr/local/bin/") #Import files from user local bin
 import numpy as np
 import _RNA as RNA
 import time
 from multiprocessing import Pool
+from concurrent.futures import ProcessPoolExecutor
+sys.path.append("/usr/local/lib/python3.6/site-packages/RNA") #Import ViennaRNA
+sys.path.append("/usr/local/bin/") #Import files from user local bin
 #Get the current working directory
 cwd = os.getcwd()
 sys.path.append(cwd)
@@ -25,11 +26,26 @@ for line in proc.stdout:
     (key, _, value) = line.partition("=")
     os.environ[key] = value
 proc.communicate()
+#Creating a parser for you to pass the parameters in
+my_parser = argparse.ArgumentParser(description='haddock2.2 directory,\n number of cores,\n password (usually not needed),\n starting sequence (fasta file),\n,number of generations,\n,starting generation')
 #Some entry variables that need to be changed, depending on your own HADDOCK version, these are the default values right
-haddock_dir = '/root/haddock-deps/haddock2.2'
-password ='' #Insert your own PC's password here, if it has one, leave it blank if it does not
-cns_exec = "/root/haddock-deps/haddock2.2/../../cns_solve_1.3/intel-x86_64bit-linux/bin/cns"
-cores = "80"
+my_parser.add_argument('d',type=str,help="Absolute path to HADDOCK 2.2 directory",default = "/root/haddock-deps/haddock2.2")
+my_parser.add_argument('c',type=str,help="Number of cores to be used by multiprocessing (default is 160)",default = "160")
+my_parser.add_argument('p',type=str,help="Password for admin access, unneeded",default ="")
+my_parser.add_argument('f',type=str,help="The first file to start the program",default ="0.fasta")
+my_parser.add_argument('g',type=str,help="The number of generation that the program should run for, time per generation depends heavily on number of cores",default = "10")
+
+args = parser.parse_args()
+cores = args.c
+haddock_dir = args.d
+password = args.p #Insert your own PC's password here, if it has one, leave it blank if it does not
+firstfile = args.f
+generations = args.g
+with open("firstfile","r") as f:
+    sequence_length = len(f.read().splitlines()[1])
+          
+
+cns_exec = haddock_dir + "/../../cns_solve_1.3/intel-x86_64bit-linux/bin/cns"
 ####Make the mutation into a function
 def get_max_index():
     fasta_max = [] #Get the max index of the filenames, in order to not calculate more things than needed
@@ -81,7 +97,7 @@ def mutate_seq_and_get_secondary_structure(filename,fasta_max):
     return(None)
 
 #Lets write a function for this
-def rna_tertiary_structure_prediction(filename,angstrom_cutoff = "4.4",fraction_to_cluster = "0.01"):
+def rna_tertiary_structure_prediction(filename,angstrom_cutoff = floor(sequence_length/10),fraction_to_cluster = "0.01"):
     fasta_idx = filename.replace(".fasta","") #Get index
     fasta_seq_filename = fasta_idx + ".fasta"
     fasta_seq_simrna_filename = fasta_idx + "fasta.simrna" #Create dummy file for simRNA
@@ -306,7 +322,7 @@ def clean_gen_one():
 if __name__ == "__main__":
     num_threads = 10
     #Setting up gen one
-    with open("0.fasta","r") as f: #Open up the original file
+    with open(firstfile,"r") as f: #Open up the original file
         first_seq = f.read().splitlines()[1] #Obtain sequence
     (ss,mfe) = RNA.fold(first_seq) #Fold it
     with open("0.secstr","w") as f: #Write secondary structure file
@@ -315,8 +331,9 @@ if __name__ == "__main__":
         f.write(ss) #Write sequence
     for i in range(9): #Create 9 offspring from the first file
         max_index = get_max_index() #Get the max index each time, just to be sure that the creation is going fine
-        mutate_seq_and_get_secondary_structure("0.fasta",max_index) #Create .fasta and .secstr files for them
-    filenames = list(range(0,10)) #Get the filenames from the first generation (those are set)
+        mutate_seq_and_get_secondary_structure(firstfile,max_index) #Create .fasta and .secstr files for them
+    firstfile_idx_temp = firstfile.replace(".fasta","")
+    filenames = list(range(int(firstfile_idx_temp),int(firstfile_idx_temp))) #Get the filenames from the first generation (those are set)
     filenames = [str(x) + ".fasta" for x in filenames] #Get the actual fasta name (not that it really matters)
     with Pool(num_threads) as pool: #Thread pool 1
         pool.map(rna_tertiary_structure_prediction,filenames) #Predict tertiary structure
