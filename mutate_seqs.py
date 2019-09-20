@@ -13,6 +13,7 @@ import pprint
 import shlex
 import subprocess
 import numpy as np
+from math import floor
 import _RNA as RNA
 import time
 from multiprocessing import Pool
@@ -42,7 +43,7 @@ haddock_dir = args.d
 password = args.p #Insert your own PC's password here, if it has one, leave it blank if it does not
 firstfile = args.f
 generations = args.g
-with open("firstfile","r") as f:
+with open(firstfile,"r") as f:
     sequence_length = len(f.read().splitlines()[1])
           
 
