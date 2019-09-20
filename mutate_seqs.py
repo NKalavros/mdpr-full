@@ -258,7 +258,7 @@ def prepare_haddock(filename):
     elif password == "":
         args = ["python2",haddock_dir+"/Haddock/RunHaddock.py"]
         subprocess.call(args)
-    os.chrdir("structures/it1/water")
+    os.chdir("structures/it1/water")
     args = [haddock_dir + "/tools/ana_structures.csh"]
     subprocess.call(args)
     with open("structures_haddock-sorted.stat","r") as f:
@@ -307,6 +307,13 @@ def get_best_sequences(file):
         scores.append(float(score)*-1)
 
     names_sorted = [x for _,x in sorted(zip(scores,names))]
+    
+    for i in range(len(names_sorted)):
+        new_string = ""
+        for j in range(5):
+            if names_sorted[i][j].isdigit():
+                new_string = new_string + names_sorted[i][j]
+        names_sorted[i] = new_string
 
     new_filenames = [x[0] for x in names_sorted]
     new_filenames = [x + ".fasta" for x in new_filenames]
@@ -393,7 +400,7 @@ if __name__ == "__main__":
         filenames = get_best_sequences("results.txt")[::-1] #Reverse to get best scores first (descending order)
         filenames = filenames[0:10] #Get the 10 best ones to use as parents
         max_index_prev = get_max_index()
-        for i in range(9): #Create 9 offspring from the first file
+        for i in range(10): #Create 9 offspring from the first file
             max_index = get_max_index() #Get the max index each time, just to be sure that the creation is going fine
             mutate_seq_and_get_secondary_structure(filenames[i],max_index) #Create .fasta and .secstr files for them
         filenames = list(range(int(max_index_prev)+1,int(max_index_prev)+10)) #Get the filenames from the Nth generation (those are set)
