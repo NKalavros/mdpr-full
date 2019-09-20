@@ -350,7 +350,7 @@ if __name__ == "__main__":
     haddock_dir = args.d
     password = args.p #Insert your own PC's password here, if it has one, leave it blank if it does not
     firstfile = args.f
-    generations = args.g
+    generations = int(args.g)
     continuation = int(args.cont)
 
 
@@ -396,27 +396,29 @@ if __name__ == "__main__":
         args = ["gsutil","cp","./results.txt","gs://mdpr-bucket"]
         subprocess.call(args)
     elif continuation==1:
-        filenames = get_best_sequences("results.txt")[::-1] #Reverse to get best scores first (descending order)
-        filenames = filenames[0:10] #Get the 10 best ones to use as parents
-        max_index_prev = get_max_index()
-        for i in range(10): #Create 9 offspring from the first file
-            max_index = get_max_index() #Get the max index each time, just to be sure that the creation is going fine
-            mutate_seq_and_get_secondary_structure(filenames[i],max_index) #Create .fasta and .secstr files for them
-        filenames = list(range(int(max_index_prev)+1,int(max_index_prev)+10)) #Get the filenames from the Nth generation (those are set)
-        filenames = [str(x) + ".fasta" for x in filenames] #Get the actual fasta name (not that it really matters)
-        with Pool(num_threads) as pool: #Thread pool 1
-            pool.map(rna_tertiary_structure_prediction,filenames) #Predict tertiary structure
-        with Pool(num_threads) as pool: #Thread pool 2 (in order to synchronise the two)
-            pool.map(rna_tertiary_structure_refinement,filenames) #Refine tertiary structure
-        secondary_structures = list(map(secondary_from_tertiary,filenames)) #This takes too little to need pooling, get secondary structure from tertiary
-        list(map(dot_bracket_to_cns,secondary_structures,filenames)) #Create ten separate rna-dna_restraints.def files, one for each
-        list(map(change_runcns,filenames)) #Create ten separate run.cns files, one for each
-        list(map(edit_pdb_for_haddock_compliance,filenames)) #Edit all filenames to make sure they are HADDOCK compliant
-        for candidate in filenames:
-            with ProcessPoolExecutor(int(cores)) as executor:
-                future = executor.submit(prepare_haddock,candidate)
-        print("First generation is complete, uploading!")
-        args = ["gsutil","cp","./*.fasta","gs://mdpr-bucket"]
-        subprocess.call(args)
-        args = ["gsutil","cp","./results.txt","gs://mdpr-bucket"]
-        subprocess.call(args)
+        for i in range(1,generations+1):
+            print("Beginning generation:",i)
+            filenames = get_best_sequences("results.txt")[::-1] #Reverse to get best scores first (descending order)
+            filenames = filenames[0:10] #Get the 10 best ones to use as parents
+            max_index_prev = get_max_index()
+            for i in range(10): #Create 9 offspring from the first file
+                max_index = get_max_index() #Get the max index each time, just to be sure that the creation is going fine
+                mutate_seq_and_get_secondary_structure(filenames[i],max_index) #Create .fasta and .secstr files for them
+            filenames = list(range(int(max_index_prev)+1,int(max_index_prev)+10)) #Get the filenames from the Nth generation (those are set)
+            filenames = [str(x) + ".fasta" for x in filenames] #Get the actual fasta name (not that it really matters)
+            with Pool(num_threads) as pool: #Thread pool 1
+                pool.map(rna_tertiary_structure_prediction,filenames) #Predict tertiary structure
+            with Pool(num_threads) as pool: #Thread pool 2 (in order to synchronise the two)
+                pool.map(rna_tertiary_structure_refinement,filenames) #Refine tertiary structure
+            secondary_structures = list(map(secondary_from_tertiary,filenames)) #This takes too little to need pooling, get secondary structure from tertiary
+            list(map(dot_bracket_to_cns,secondary_structures,filenames)) #Create ten separate rna-dna_restraints.def files, one for each
+            list(map(change_runcns,filenames)) #Create ten separate run.cns files, one for each
+            list(map(edit_pdb_for_haddock_compliance,filenames)) #Edit all filenames to make sure they are HADDOCK compliant
+            for candidate in filenames:
+                with ProcessPoolExecutor(int(cores)) as executor:
+                    future = executor.submit(prepare_haddock,candidate)
+            print("First generation is complete, uploading!")
+            args = ["gsutil -m","cp","./*.fasta","gs://mdpr-bucket"]
+            subprocess.call(args)
+            args = ["gsutil","cp","./results.txt","gs://mdpr-bucket"]
+            subprocess.call(args)
