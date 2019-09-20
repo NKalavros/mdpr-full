@@ -357,7 +357,7 @@ if __name__ == "__main__":
     print("Starting")
 
     num_threads = 10 #Ten sequences per generation
-    if cont=="0":
+    if continuation=="0":
         #Setting up gen one
         firstfile_idx = firstfile.replace(".fasta","")
         with open(firstfile,"r") as f: #Open up the original file
@@ -388,7 +388,7 @@ if __name__ == "__main__":
         call(args)
         args = ["gsutil","cp","./results.txt","gs://mdpr-bucket"]
         call(args)
-    elif cont=="1":
+    elif continuation=="1":
         filenames = get_best_sequences("results.txt")[::-1] #Reverse to get best scores first (descending order)
         filenames = filenames[0:10] #Get the 10 best ones to use as parents
         for i in range(9): #Create 9 offspring from the first file
