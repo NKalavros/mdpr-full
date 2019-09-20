@@ -301,7 +301,7 @@ if __name__ == "__main__":
     sys.path.append(cwd)
 
     #Source bashrc and bash_profile in python, just to be sure everything works
-    command = shlex.split("env -i bash -c 'source ~/.bashrc && ~/.bash_profile'")
+    command = shlex.split("env -i sudo bash -c 'source ~/.bashrc && ~/.bash_profile'")
     proc = subprocess.Popen(command, stdout = subprocess.PIPE)
     for line in proc.stdout:
         (key, _, value) = line.partition("=")
