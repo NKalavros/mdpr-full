@@ -320,12 +320,13 @@ if __name__ == "__main__":
     password = args.p #Insert your own PC's password here, if it has one, leave it blank if it does not
     firstfile = args.f
     generations = args.g
-
+	
     #Get the sequence length for the aptamer you will be developing
     with open(firstfile,"r") as f:
+	global sequence_length
         sequence_length = len(f.read().splitlines()[1])
 
-	cns_exec = haddock_dir + "/../../cns_solve_1.3/intel-x86_64bit-linux/bin/cns" #CNS executable location
+    cns_exec = haddock_dir + "/../../cns_solve_1.3/intel-x86_64bit-linux/bin/cns" #CNS executable location
 
     print("Starting")
 
