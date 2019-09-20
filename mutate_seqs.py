@@ -330,12 +330,12 @@ if __name__ == "__main__":
     #Creating a parser for you to pass the parameters in
     my_parser = argparse.ArgumentParser(description='haddock2.2 directory,\n number of cores,\n password (usually not needed),\n starting sequence (fasta file),\n,number of generations,\n,starting generation')
     #Some entry variables that need to be changed, depending on your own HADDOCK version, these are the default values right
-    my_parser.add_argument('d',type=str,nargs='?',help="Absolute path to HADDOCK 2.2 directory",default = "/root/haddock-deps/haddock2.2")
-    my_parser.add_argument('c',type=str,nargs='?',help="Number of cores to be used by multiprocessing (default is 96)",default = "96")
-    my_parser.add_argument('p',type=str,nargs='?',help="Password for admin access, unneeded",default ="oneshot")
-    my_parser.add_argument('f',type=str,nargs='?',help="The first file to start the program",default ="0.fasta")
-    my_parser.add_argument('g',type=str,nargs='?',help="The number of generation that the program should run for, time per generation depends heavily on number of cores",default = "5")
-    my_parser.add_argument("cont", type = int, nargs="?", help="Skips creating files for the first generation. 0 creates a first generation and 1 skips ahead",default="0")
+    my_parser.add_argument('-d',metavar='d',type=str,nargs='?',help="Absolute path to HADDOCK 2.2 directory",default = "/root/haddock-deps/haddock2.2")
+    my_parser.add_argument('-c',metavar='c',type=str,nargs='?',help="Number of cores to be used by multiprocessing (default is 96)",default = "96")
+    my_parser.add_argument('-p',metavar='p',type=str,nargs='?',help="Password for admin access, unneeded",default ="oneshot")
+    my_parser.add_argument('-f',metavar='f',type=str,nargs='?',help="The first file to start the program",default ="0.fasta")
+    my_parser.add_argument('-g',metavar='g',type=str,nargs='?',help="The number of generation that the program should run for, time per generation depends heavily on number of cores",default = "5")
+    my_parser.add_argument('-cont',metavar='cont',, type = int, nargs="?", help="Skips creating files for the first generation. 0 creates a first generation and 1 skips ahead",default="0")
 
 
     #Read args in and assign them
@@ -346,6 +346,7 @@ if __name__ == "__main__":
     firstfile = args.f
     generations = args.g
     continuation = int(args.cont)
+
 
     #Get the sequence length for the aptamer you will be developing
     with open(firstfile,"r") as f:
