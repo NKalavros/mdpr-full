@@ -36,3 +36,5 @@ python3 mutate_seqs.py
 gsutil -m cp gs://mdpr-bucket/* .
 #Start new generations
 python3 mutate_seqs.py -cont 1
+#Code for non preemptible instance
+gcloud beta compute --project=the-best-project-ever-251714 instances create instance-2 --zone=europe-west1-b --machine-type=n1-highcpu-96 --subnet=default --network-tier=PREMIUM --maintenance-policy=MIGRATE --service-account=170239206144-compute@developer.gserviceaccount.com --scopes=https://www.googleapis.com/auth/cloud-platform --tags=http-server,https-server --image=ubuntu-1804-bionic-v20190918 --image-project=ubuntu-os-cloud --boot-disk-size=200GB --boot-disk-type=pd-ssd --boot-disk-device-name=instance-2 --reservation-affinity=any
