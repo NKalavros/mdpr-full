@@ -11,7 +11,7 @@ sudo gcloud compute --project=the-best-project-ever-251714 firewall-rules create
 #Now, create a Google Cloud bucket to store all your results! This buckets name is mdpr. Results will be uploaded here at the end of each generation.
 sudo gsutil mb gs://mdpr-bucket/
 #SSH into your instance now. Once again, this is sample code. For this instance, the key is igemrocks! (with the exclamation point)
-sudo gcloud beta compute --project "the-best-project-ever-251714" ssh --zone "europe-west1-b" "instance-1"
+sudo gcloud beta compute --project "the-best-project-ever-251714" ssh --zone "europe-west1-d" "instance-1"
 #When in your instance, login to your google cloud account (installed by default). You need to do this to upload your files
 sudo gcloud auth login
 #Clone this repository (git is installed by default)
