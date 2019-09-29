@@ -374,3 +374,5 @@ if __name__ == "__main__":
     change_runcns(firstfile) #Create ten separate run.cns files, one for each
     edit_pdb_for_haddock_compliance(firstfile) #Edit all filenames to make sure they are HADDOCK compliant
     prepare_haddock(firstfile)
+    args = ["gsutil","-m","cp","-r","run" + firstfile.replace(".fasta",""),"gs://mdpr-bucket"]
+    subprocess.call(args)
