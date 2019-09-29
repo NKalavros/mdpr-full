@@ -340,20 +340,14 @@ if __name__ == "__main__":
     my_parser.add_argument('-d',metavar='d',type=str,nargs='?',help="Absolute path to HADDOCK 2.2 directory",default = "/root/haddock-deps/haddock2.2")
     my_parser.add_argument('-c',metavar='c',type=str,nargs='?',help="Number of cores to be used by multiprocessing (default is 96)",default = "96")
     my_parser.add_argument('-p',metavar='p',type=str,nargs='?',help="Password for admin access, unneeded",default ="oneshot")
-    my_parser.add_argument('-f',metavar='f',type=str,nargs='?',help="The first file to start the program",default ="0.fasta")
-    my_parser.add_argument('-g',metavar='g',type=str,nargs='?',help="The number of generation that the program should run for, time per generation depends heavily on number of cores",default = "5")
-    my_parser.add_argument('-cont',metavar='cont', type = int, nargs="?", help="Skips creating files for the first generation. 0 creates a first generation and 1 skips ahead",default="0")
-
-
+    my_parser.add_argument('-f',metavar='f',type=str,nargs='?',help="File to dock",default ="0.fasta")
+    
     #Read args in and assign them
     args = my_parser.parse_args()
     cores = args.c
     haddock_dir = args.d
     password = args.p #Insert your own PC's password here, if it has one, leave it blank if it does not
     firstfile = args.f
-    generations = int(args.g)
-    continuation = int(args.cont)
-
 
     #Get the sequence length for the aptamer you will be developing
     with open(firstfile,"r") as f:
@@ -364,62 +358,19 @@ if __name__ == "__main__":
 
     print("Starting")
 
-    num_threads = 10 #Ten sequences per generation
-    if continuation==0:
-        #Setting up gen one
-        firstfile_idx = firstfile.replace(".fasta","")
-        with open(firstfile,"r") as f: #Open up the original file
-            first_seq = f.read().splitlines()[1] #Obtain sequence
-        (ss,mfe) = RNA.fold(first_seq) #Fold it
-        with open(firstfile_idx+".secstr","w") as f: #Write secondary structure file
-            f.write(">" + firstfile_idx + " " + str(mfe)) #Right energy
-            f.write("\n")
-            f.write(ss) #Write sequence
-        for i in range(9): #Create 9 offspring from the first file
-            max_index = get_max_index() #Get the max index each time, just to be sure that the creation is going fine
-            mutate_seq_and_get_secondary_structure(firstfile,max_index) #Create .fasta and .secstr files for them
-        filenames = list(range(int(firstfile_idx),int(firstfile_idx)+10)) #Get the filenames from the first generation (those are set)
-        filenames = [str(x) + ".fasta" for x in filenames] #Get the actual fasta name (not that it really matters)
-        with Pool(num_threads) as pool: #Thread pool 1
-            pool.map(rna_tertiary_structure_prediction,filenames) #Predict tertiary structure
-        with Pool(num_threads) as pool: #Thread pool 2 (in order to synchronise the two)
-            pool.map(rna_tertiary_structure_refinement,filenames) #Refine tertiary structure
-        secondary_structures = list(map(secondary_from_tertiary,filenames)) #This takes too little to need pooling, get secondary structure from tertiary
-        list(map(dot_bracket_to_cns,secondary_structures,filenames)) #Create ten separate rna-dna_restraints.def files, one for each
-        list(map(change_runcns,filenames)) #Create ten separate run.cns files, one for each
-        list(map(edit_pdb_for_haddock_compliance,filenames)) #Edit all filenames to make sure they are HADDOCK compliant
-        for candidate in filenames:
-            with ProcessPoolExecutor(int(cores)) as executor:
-                future = executor.submit(prepare_haddock,candidate)
-        print("First generation is complete, uploading!")
-        args = ["gsutil","cp","./*.fasta","gs://mdpr-bucket"]
-        subprocess.call(args)
-        args = ["gsutil","cp","./results.txt","gs://mdpr-bucket"]
-        subprocess.call(args)
-    elif continuation==1:
-        for i in range(1,generations+1):
-            print("Beginning generation:",i)
-            filenames = get_best_sequences("results.txt")[::-1] #Reverse to get best scores first (descending order)
-            filenames = filenames[0:10] #Get the 10 best ones to use as parents
-            max_index_prev = get_max_index()
-            for i in range(10): #Create 9 offspring from the first file
-                max_index = get_max_index() #Get the max index each time, just to be sure that the creation is going fine
-                mutate_seq_and_get_secondary_structure(filenames[i],max_index) #Create .fasta and .secstr files for them
-            filenames = list(range(int(max_index_prev)+1,int(max_index_prev)+11)) #Get the filenames from the Nth generation (those are set)
-            filenames = [str(x) + ".fasta" for x in filenames] #Get the actual fasta name (not that it really matters)
-            with Pool(num_threads) as pool: #Thread pool 1
-                pool.map(rna_tertiary_structure_prediction,filenames) #Predict tertiary structure
-            with Pool(num_threads) as pool: #Thread pool 2 (in order to synchronise the two)
-                pool.map(rna_tertiary_structure_refinement,filenames) #Refine tertiary structure
-            secondary_structures = list(map(secondary_from_tertiary,filenames)) #This takes too little to need pooling, get secondary structure from tertiary
-            list(map(dot_bracket_to_cns,secondary_structures,filenames)) #Create ten separate rna-dna_restraints.def files, one for each
-            list(map(change_runcns,filenames)) #Create ten separate run.cns files, one for each
-            list(map(edit_pdb_for_haddock_compliance,filenames)) #Edit all filenames to make sure they are HADDOCK compliant
-            for candidate in filenames:
-                with ProcessPoolExecutor(int(cores)) as executor:
-                    future = executor.submit(prepare_haddock,candidate)
-            print("First generation is complete, uploading!")
-            args = ["gsutil", "-m","cp","./*.fasta","gs://mdpr-bucket"]
-            subprocess.call(args)
-            args = ["gsutil","cp","./results.txt","gs://mdpr-bucket"]
-            subprocess.call(args)
+    num_threads = 1 #Need only 1 sequences
+    firstfile_idx = firstfile.replace(".fasta","")
+    with open(firstfile,"r") as f: #Open up the original file
+        first_seq = f.read().splitlines()[1] #Obtain sequence
+    (ss,mfe) = RNA.fold(first_seq) #Fold it
+    with open(firstfile_idx+".secstr","w") as f: #Write secondary structure file
+        f.write(">" + firstfile_idx + " " + str(mfe)) #Right energy
+        f.write("\n")
+        f.write(ss) #Write sequence
+    rna_tertiary_structure_prediction(firstfile) #Predict tertiary structure
+    rna_tertiary_structure_refinement(firstfile) #Refine tertiary structure
+    secondary_structure = secondary_from_tertiary(firstfile) #This takes too little to need pooling, get secondary structure from tertiary
+    dot_bracket_to_cns(secondary_structure,firstfile) #Create ten separate rna-dna_restraints.def files, one for each
+    change_runcns(firstfile) #Create ten separate run.cns files, one for each
+    edit_pdb_for_haddock_compliance(firstfile) #Edit all filenames to make sure they are HADDOCK compliant
+    prepare_haddock(firstfile)
