@@ -48,12 +48,8 @@ sudo cp -r ./data ..
 cp config.dat ../config.dat
 cd ..
 
-sudo curl -L https://www.dropbox.com/s/ha7x8h09rtkmvad/x3dna-dssr?dl=0 --output x3dna-dssr
 sudo chmod 777 x3dna-dssr
 sudo mv ./x3dna-dssr /usr/local/bin/x3dna-dssr
-sudo curl -L https://www.dropbox.com/s/v2n85avgnm6tohh/cns_solve_1.3_all.tar.gz?dl=0 --output cns13.tar.gz
-sudo curl -L https://www.dropbox.com/s/32h76w3l4gnaxxh/x3dna-v2.4-linux-64bit.tar.gz?dl=0 --output x3dna.tar.gz
-sudo curl -L https://www.dropbox.com/s/4fmks0cxcvu8pa1/foldxLinux64.tar_.gz?dl=0 --output foldx4.tar.gz
 tar -zxvf x3dna.tar.gz
 sudo rm -r x3dna.tar.gz
 cd x3dna-v2.4/src
