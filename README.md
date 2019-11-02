@@ -1,5 +1,4 @@
-# Mutate Dock Predict Repeat *YEAH AS IF THAT IS THE CORRECT ORDER ΣΤΟΥΦΙΔ*
-
+# Mutate Predict Dock Repeat
 A repository that hosts the necessary scripts to install and run the **MPDR** routine created by iGEM Athens 2019. Obviously wrongly named. MPDR stands for Mutate, Predict, Dock Repeat.
 
 ## What does this repository contain?
